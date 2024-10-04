@@ -23,30 +23,30 @@ const Hero = () => {
         </div>
       </div>
       <div className="absolute bottom-[10%] flex flex-col justify-center items-center gap-5">
-        <p className="font-geist-mono text-p5 font-semibold text-xl">
+        <p className="font-geist-mono text-p4 font-semibold text-xl">
           Powered By
         </p>
-        <div className="flex justify-center items-center px-6 bg-p4 rounded-2xl gap-4">
+        <div className="flex justify-center items-center px-6 rounded-2xl gap-4">
           <Image
-            src="https://framerusercontent.com/images/VkDWRpObJDOFgaJ1JQQ5YTM.png"
+            src="/scroll-lighttext.png"
             alt="scroll"
             width={100}
             height={100}
           />
           <Image
-            src="https://framerusercontent.com/images/nKgNpbqpV3J3dJJShj4It2aopo.png"
+            src="/worldcoin-lighttext.png"
             alt="worldcoin"
-            width={200}
-            height={200}
+            width={150}
+            height={150}
           />
           <Image
-            src="https://framerusercontent.com/images/GjHgeSyedg4lNC23CI9o6nbS7U.png"
+            src="/thegraph-lighttext.png"
             alt="thegraph"
             width={130}
             height={130}
           />
           <Image
-            src="https://framerusercontent.com/images/Z28smtWXfSjinRvEl2pl1elKk.png"
+            src="/tlsnotary-lighttext.png"
             alt="tlsnotary"
             width={130}
             height={130}

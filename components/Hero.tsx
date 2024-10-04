@@ -8,13 +8,13 @@ const Hero = () => {
       <div className="flex flex-col gap-5 justify-center items-center pb-[160px]">
         <h1
           className="
-          text-p4 font-geist-sans font-semibold text-6xl tracking-wider
+          text-p4 font-geist-sans font-bold text-hella-large tracking-wider
             bg-clip-text text-transparent bg-gradient-to-r from-p4 to-[#7b809d]
           "
         >
           LOCALDAO
         </h1>
-        <p className="text-p5 font-geist-mono text-2xl tracking-wide">
+        <p className="text-p5 font-geist-mono font-bold text-2xl tracking-wide -mt-8">
           Providing <span className="text-p6">Valuable Information</span> from
           the Local Community
         </p>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import Button from "./Button";
 
 const Hero = () => {
   return (
@@ -7,21 +8,25 @@ const Hero = () => {
       <div className="flex flex-col gap-5 justify-center items-center pb-[160px]">
         <h1
           className="
-          text-p4 font-geist-sans font-semibold text-6xl tracking-wide
-            bg-clip-text text-transparent bg-gradient-to-r from-p4 to-p1/40
+          text-p4 font-geist-sans font-semibold text-6xl tracking-wider
+            bg-clip-text text-transparent bg-gradient-to-r from-p4 to-[#7b809d]
           "
         >
           LOCALDAO
         </h1>
         <p className="text-p5 font-geist-mono text-2xl tracking-wide">
-          Providing Valuable Information from the Local Community
+          Providing <span className="text-p6">Valuable Information</span> from
+          the Local Community
         </p>
+        <div className="mt-8">
+          <Button text="Launch App" />
+        </div>
       </div>
-      <div className="absolute bottom-[20%] flex flex-col justify-center items-center gap-3">
-        <p className="font-geist-mono text-p4 font-semibold text-xl">
+      <div className="absolute bottom-[10%] flex flex-col justify-center items-center gap-5">
+        <p className="font-geist-mono text-p5 font-semibold text-xl">
           Powered By
         </p>
-        <div className="flex justify-center items-center px-3 bg-p4 rounded-xl gap-4 bg-opacity-50 glowing-border">
+        <div className="flex justify-center items-center px-6 bg-p4 rounded-2xl gap-4">
           <Image
             src="https://framerusercontent.com/images/VkDWRpObJDOFgaJ1JQQ5YTM.png"
             alt="scroll"
@@ -39,6 +44,13 @@ const Hero = () => {
             alt="thegraph"
             width={130}
             height={130}
+          />
+          <Image
+            src="https://framerusercontent.com/images/Z28smtWXfSjinRvEl2pl1elKk.png"
+            alt="tlsnotary"
+            width={130}
+            height={130}
+            className="ml-3"
           />
         </div>
       </div>

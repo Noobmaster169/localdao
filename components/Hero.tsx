@@ -8,7 +8,7 @@ const Hero = () => {
       <div className="flex flex-col gap-5 justify-center items-center pb-[160px]">
         <h1
           className="
-          text-p4 font-geist-sans font-bold text-hella-large tracking-wider
+          text-p4 font-geist-sans font-semibold text-hella-large tracking-wider
             bg-clip-text text-transparent bg-gradient-to-r from-p4 to-[#7b809d]
           "
         >

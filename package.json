@@ -32,6 +32,7 @@
     "thirdweb": "^5.61.0",
     "typewriter-effect": "^2.21.0",
     "uploadthing": "^7.0.2",
+    "viem": "^2.21.18",
     "zod": "^3.23.8"
   },
   "devDependencies": {

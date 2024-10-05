@@ -36,10 +36,7 @@ export default function Home() {
   };
 
   const addJSON = async () => {
-    const sample = {
-      name: "Hello",
-      age: "18"
-    };
+    const sample = {"name":"Coca-Cola Survey","description":"Choose your favorite product from The Coca-Cola Company\n","country":"Malaysia","region":"Selangor","imageUrl":"https://ivory-vivacious-rooster-272.mypinata.cloud/ipfs/QmcmTDLeHUARs2axqJUWdGyo3QhVHNKaccLiQ3tAwaBQVP","options":["Fanta","Sprite","Coca-Cola"]}
     console.log("Uploading JSON...");
     const cid = await uploadJSON(sample);
     console.log("JSON Successfully uploaded");

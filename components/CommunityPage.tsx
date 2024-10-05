@@ -1,12 +1,53 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import Button from "./Button";
 import { ICommunity } from "@/models/community.models";
 import CommunityCard from "./CommunityCard";
+import { getContract, createThirdwebClient, readContract, Chain } from 'thirdweb';
+import ABI from '@/contract/localDAO/abi.json';
+import { scrollSepolia } from 'viem/chains';
+
+const client: any = createThirdwebClient({
+  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
+});
+const scrollSepoliaChain = {
+  ...scrollSepolia,
+  rpc: scrollSepolia.rpcUrls.default.http[0],
+  blockExplorers: [
+    {
+      name: scrollSepolia.blockExplorers.default.name,
+      url: scrollSepolia.blockExplorers.default.url,
+      apiUrl: scrollSepolia.blockExplorers.default.apiUrl,
+    },
+  ],
+}
+const contract :any = getContract({
+  client,
+  chain: scrollSepoliaChain,
+  address: "0x39683204f4822A75A3264a9e6583e9105fAD3fAc",
+  abi: ABI as any
+})
+
 
 const CommunityPage = () => {
+  const [counter, setCounter] = useState<number>(0);
+  
+  useEffect(() => {
+    getData();
+  }, []);
+
+  const getData = async () => {
+    const counter = await readContract({
+      contract: contract,
+      method: 'function getCounter() public view returns (uint256)',
+      params: []
+    })
+    alert(counter);
+    return counter;
+  };
+
   const mockData: ICommunity[] = [
     {
       _id: 2,
@@ -116,6 +157,7 @@ const CommunityPage = () => {
             <CommunityCard key={community._id} community={community} />
           ))}
         </div>
+        <button onClick={getCounter}>Get Counter</button>
       </div>
     </div>
   );

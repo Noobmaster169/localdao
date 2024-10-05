@@ -8,12 +8,26 @@ import Button from "./Button";
 import { ConnectButton } from "thirdweb/react";
 import { inAppWallet, createWallet } from "thirdweb/wallets";
 import { client } from "@/constants";
-import { myChain } from "../app/testing/read_contract/page"
+// import { myChain } from "../app/testing/read_contract/page"
+import { scrollSepolia } from "viem/chains";
+
+const scrollSepoliaChain = {
+  ...scrollSepolia,
+  rpc: scrollSepolia.rpcUrls.default.http[0],
+  blockExplorers: [
+    {
+      name: scrollSepolia.blockExplorers.default.name,
+      url: scrollSepolia.blockExplorers.default.url,
+      apiUrl: scrollSepolia.blockExplorers.default.apiUrl,
+    },
+  ],
+}
 
 const wallets = [
   inAppWallet({
     smartAccount: {
-      chain: myChain,
+      // chain: myChain,
+      chain: scrollSepoliaChain,
       sponsorGas: true,
     },
   }),
@@ -73,7 +87,8 @@ export default function NavBar() {
                       logoUrl: "/Luca3.png",
                     }}
                     autoConnect={true}
-                    chains={[myChain]}
+                    // chains={[myChain]}
+                    chains={[scrollSepoliaChain]}
                     connectButton={{
                       label: "Connect Wallet",
                     }}
@@ -83,7 +98,8 @@ export default function NavBar() {
                     }}
                     showAllWallets={false}
                     accountAbstraction={{
-                      chain: myChain,
+                      // chain: myChain,
+                      chain: scrollSepoliaChain,
                       sponsorGas: true,
                     }}
                   />

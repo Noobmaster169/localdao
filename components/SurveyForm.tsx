@@ -20,16 +20,32 @@ import Link from "next/link";
 
 import FileUploader from "@/components/FileUploader";
 import { uploadFile, uploadJSON, linkBuilder, fetchJSON, fetchLinkData } from "@/utils/ipfs";
+import { getContract, createThirdwebClient, readContract, Chain } from 'thirdweb';
+import ABI from '@/contract/localDAO/abi.json';
+import { scrollSepolia } from "@/utils/chain";
+import { prepareContractCall, toWei , sendAndConfirmTransaction, sendTransaction} from "thirdweb";
+import { Account, createWallet } from "thirdweb/wallets";
+
+const client: any = createThirdwebClient({
+  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
+});
+
+const contract :any = getContract({
+  client,
+  chain: scrollSepolia,
+  address: "0x39683204f4822A75A3264a9e6583e9105fAD3fAc",
+  abi: ABI as any
+})
 
 const SurveyForm = () => {
   const router = useRouter()
-
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState<string[]>([])
   const [isUploading, setIsUploading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [isBuilding, setIsBuilding] = useState(false);
   const [newOption, setNewOption] = useState("");
+  const [amount, setAmount] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     files: [] as File[],
@@ -76,14 +92,40 @@ const SurveyForm = () => {
   async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     //console.log(uploadToIpfs(form.getValues("imageUrl")))
     console.log("Submitted values:", values);
+    values.name = values.surveyTitle;
     setIsBuilding(true);
     const jsonUpload = await uploadJSON(values)
     const IPFSLink = await linkBuilder(jsonUpload)
     console.log("Successfully uploaded and link built")
     console.log(IPFSLink)
+    await createVoting(IPFSLink);
     setIsBuilding(false);
     router.push("/community")
-    }
+  }
+
+  const createVoting = async (uri:string) => {
+    const wallet = createWallet("io.metamask");
+    const account = await wallet.connect({ client });
+    const transaction:any = await prepareContractCall({
+      contract: contract,
+      method: "createVoting",
+      params: [form.getValues("surveyTitle"), uri, form.getValues("options"), toWei(amount)],
+      value: toWei(amount),
+    });
+    console.log(transaction);
+
+    const transactionResult = await sendTransaction({
+      transaction,
+      account,
+    });
+    console.log(transactionResult);
+    // const transactionReceipt = await sendAndConfirmTransaction({
+    //   account,
+    //   transaction,
+    // });
+    // alert(transactionReceipt);
+    console.log("Done")
+  };
 
   return (
     <div className="w-full h-fit pt-8 px-8 pb-10 font-geist-mono">
@@ -140,6 +182,16 @@ const SurveyForm = () => {
                   </FormItem>
                   )}
                   />
+
+                <FormLabel className="pt-2 -mb-1 px-1">Voting Incentive:</FormLabel>
+                {/* Eth amount */}
+                    <Input
+                      className="border-b-p1 border-t-0 border-l-0 border-r-0 bg-black bg-opacity-40 w-full text-white"
+                      placeholder="ETH Amount"
+                      onChange={(e) => {
+                        setAmount(e.target.value);
+                      }}
+                      />
 
                 {/* Country */}
                 <FormField

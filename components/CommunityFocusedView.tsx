@@ -8,6 +8,23 @@ import { IoMdClose } from "react-icons/io";
 import OptionTag from "./OptionTag";
 import Button from "./Button";
 import { CgSpinner } from "react-icons/cg";
+import CommunityCard from "./CommunityCard";
+import { getContract, createThirdwebClient, readContract, Chain } from 'thirdweb';
+import ABI from '@/contract/localDAO/abi.json';
+import { scrollSepolia } from "@/utils/chain";
+import { prepareContractCall, toWei , sendAndConfirmTransaction, sendTransaction} from "thirdweb";
+import { Account, createWallet } from "thirdweb/wallets";
+
+const client: any = createThirdwebClient({
+  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
+});
+
+const contract :any = getContract({
+  client,
+  chain: scrollSepolia,
+  address: "0x39683204f4822A75A3264a9e6583e9105fAD3fAc",
+  abi: ABI as any
+})
 
 type CommunityFocusedViewProps = {
   isOpen: boolean;
@@ -45,7 +62,32 @@ const CommunityFocusedView = ({
 
   // border-[#40A4FF] border-[3px] shadow-[0_0_20px_#40A4FF]
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  
 
+  const vote = async () => {
+    const wallet = createWallet("io.metamask");
+    const account = await wallet.connect({ client });
+    console.log("Account:", account);
+    const transaction:any = await prepareContractCall({
+      contract: contract,
+      method: "vote",
+      params: [BigInt(1),BigInt(1)],
+    });
+    console.log(transaction);
+
+    const transactionResult = await sendTransaction({
+      transaction,
+      account,
+    });
+    console.log(transactionResult);
+    // const transactionReceipt = await sendAndConfirmTransaction({
+    //   account,
+    //   transaction,
+    // });
+    // alert(transactionReceipt);
+    console.log("Done")
+  };
+  
   useEffect(() => {
     console.log(selectedOption);
   }, [selectedOption]);
@@ -98,7 +140,7 @@ const CommunityFocusedView = ({
             <button
               className={`font-semibold p-2 py-4 rounded-2xl flex items-center justify-center w-full text-lg text-white bg-[#40A4FF] 
               shadow-[0_0_30px_#40A4FF] drop-shadow-xl ${!selectedOption ? "opacity-50 pointer-events-none" : "opacity-100"} hover:bg-opacity-100 flex gap-2`}
-              onClick={() => {setIsOpen(false)}}
+              onClick={async () => {await vote(); setIsOpen(false)}}
               >
                 {false ? "Sending" : "Send Transaction"}
                 {false && <div className="animate-spin">

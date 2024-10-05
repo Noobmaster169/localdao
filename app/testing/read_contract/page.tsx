@@ -4,10 +4,10 @@ import ABI from './abi.json'
 import { defineChain } from 'thirdweb';
 import { scrollSepolia } from 'viem/chains';
 
-// export const myChain: Chain = defineChain({
-//     id: 534351,
-//     rpc: "https://534351.rpc.thirdweb.com",
-// });
+export const myChain: Chain = defineChain({
+    id: 534351,
+    rpc: "https://534351.rpc.thirdweb.com",
+});
 
 export const client: any = createThirdwebClient({
     clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,

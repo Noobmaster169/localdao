@@ -3,7 +3,8 @@ import { Orbitron } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import NavBar from "@/components/Navbar";
-
+// import ContextProvider from '@/context'
+// import { headers } from "next/headers"; // added
 import { ThirdwebProvider } from "thirdweb/react";
 
 const geistSans = localFont({
@@ -33,14 +34,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  //const cookies = headers().get('cookie')
+
   return (
     <ThirdwebProvider>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased transparent-background`}
         >
-          <NavBar />
-          <div className="pt-15">{children}</div>
+          {/*<ContextProvider cookies={cookies}>*/}
+            <NavBar />
+            <div className="pt-15">{children}</div>
+          {/*</ContextProvider>*/}
         </body>
       </html>
     </ThirdwebProvider>

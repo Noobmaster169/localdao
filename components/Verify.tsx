@@ -7,6 +7,7 @@ import {
 import Button from "./Button";
 
 const handleVerify = async (proof: ISuccessResult) => {
+  console.log("proof: ", proof);
   const res = await fetch("/api/verify", {
     method: "POST",
     headers: {
@@ -17,6 +18,7 @@ const handleVerify = async (proof: ISuccessResult) => {
   if (!res.ok) {
     throw new Error("Failed to verify proof");
   }
+  console.log("proof verified");
 };
 
 const onError = (error: any) => {

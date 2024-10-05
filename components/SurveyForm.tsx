@@ -22,6 +22,8 @@ import FileUploader from "@/components/FileUploader";
 import { uploadFile, uploadJSON, linkBuilder, fetchJSON, fetchLinkData } from "@/utils/ipfs";
 
 const SurveyForm = () => {
+  const router = useRouter()
+
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState<string[]>([])
   const [isUploading, setIsUploading] = useState(false);
@@ -80,6 +82,7 @@ const SurveyForm = () => {
     console.log("Successfully uploaded and link built")
     console.log(IPFSLink)
     setIsBuilding(false);
+    router.push("/community")
     }
 
   return (

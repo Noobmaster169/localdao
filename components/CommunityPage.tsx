@@ -13,14 +13,14 @@ const CommunityPage = () => {
       _id: 2,
       title: "Pepsi Challenge",
       imageUrl: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogo-marque.com%2Fwp-content%2Fuploads%2F2020%2F09%2FPepsi-Embleme.jpg&f=1&nofb=1&ipt=7ac82c48ab54e33ecbdf21626183c7c8db05040616bd535df938081cfb9c17fc&ipo=images",
-      description: "Pepsi Challenge lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum etc",
+      description: "Pepsi Challenge lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum etc long long long long long long long long long long long long long",
       location: "New York",
     },
     {
       _id: 3,
       title: "Sprite Refresh",
       imageUrl: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0959%2F7176%2Fproducts%2Fsprite-logo_1024x1024.jpg%3Fv%3D1454413466&f=1&nofb=1&ipt=a9cb7c23ef0086e33f8e6751636e1e87f75d389a75fd93b50c058c0a4ff09102&ipo=images",
-      description: "Sprite Refresh lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum etc",
+      description: "short desc",
       location: "Los Angeles",
     },
     {

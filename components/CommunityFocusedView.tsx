@@ -23,7 +23,7 @@ const CommunityFocusedView = ({community, isOpen, setIsOpen}: CommunityFocusedVi
       left: '50%',
       right: 'auto',
       width: "auto",
-      maxWidth: '1200px',
+      maxWidth: '1600px',
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
@@ -46,22 +46,20 @@ const CommunityFocusedView = ({community, isOpen, setIsOpen}: CommunityFocusedVi
         onRequestClose={() => setIsOpen(false)}
         style={customStyles as Styles}
       >
-      <div className="flex flex-col flex-grow h-full w-full transform transition hover:shadow-lg justify-between">
+      <div className="flex flex-grow h-full w-[100vh] transform transition hover:shadow-lg p-16 bg-[#050915]">
         {/* Image */}
-        <div className="overflow-hidden max-h-[80vh] min-w-[50vh]">
-            <Image
-            src={community.imageUrl}
-            alt="coverImage"
-            width={450}
-            height={225}
-            className="w-full object-contain"
-            />
-        </div>
+        <Image
+          src={community.imageUrl}
+          alt="coverImage"
+          width={250}
+          height={250}
+          className="h-[250px] w-[250px] object-cover"
+        />
         {/* Text */}
-        <div className="flex flex-col p-4 bg-black gap-1">
-          <h1 className="text-2xl font-semibold line-clamp-1">{community.title}</h1>
-          <p className="text-xl font-semibold line-clamp-3">Location: {community.location}</p>
-          <p className="text-md line-clamp-1 pt-2 text-primary">{community.description}</p>
+        <div className="flex flex-col pb-4 px-8 gap-1">
+          <h1 className="text-2xl font-semibold">{community.title}</h1>
+          <p className="text-xl font-semibold">Location: {community.location}</p>
+          <p className="text-md pt-2 text-primary">{community.description}</p>
         </div>
       </div>
       </Modal>

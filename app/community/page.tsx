@@ -85,16 +85,6 @@ export default function Home() {
   return (
     <>
     <div className="background z-[-1] absolute top-0 w-full h-screen left-0"/>
-      {/* bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#1d1b45] via-[#0a0c1b]  to-[#1d1b45] */}
-      {/* <h1 className="text-4xl font-semibold text-blue-500/100 pb-20">Community Page</h1> */}
-      {/* <div className="flex justify-center items-center h-screen w-screen absolute -top-5 left-0 z-10 pt-10">
-        <div className="grid grid-cols-3 gap-12 mt-20 overflow-auto bg-red-500 h-fit p-20"> 
-          {mockData.map((community) => (  
-            <CommunityCard key={community._id} community={community} />
-          ))}
-        </div>
-      </div> */}
-      {/* <Hero /> */}
       <CommunityPage />
     </>
   );

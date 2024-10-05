@@ -18,8 +18,8 @@ const CommunityCard = ({community}: communityCardProps) => {
     <div>
       <div
       className="
-      flex flex-col outline-[#40A4FF] w-full h-full rounded-lg border-[#40A4FF] border-[3px] shadow-[0_0_20px_#40A4FF] items-center justify-center
-      hover:cursor-pointer transform transition duration-300 hover:-translate-y-4 hover:shadow-blue-500 pt-4 px-4 pb-4 z-15"
+      flex flex-col outline-[#40A4FF] w-full h-full rounded-lg border-[#40A4FF] border-[3px] shadow-[0_0_30px_#40A4FF] items-center justify-center
+      hover:cursor-pointer transform transition duration-300 hover:-translate-y-4 hover:shadow-blue-500 pt-8 px-4 pb-4 z-15 bg-[#051650] bg-opacity-50"
       onClick={() => setIsOpen(true)}
       >
         <div className="bg-clear flex flex-col items-center justify-center">
@@ -31,7 +31,7 @@ const CommunityCard = ({community}: communityCardProps) => {
           className="rounded-t-md h-[250px] w-[250px] object-cover"
         />
         {/* Text */}
-        <div className="flex flex-col items-center justify-center px-2 pt-2">
+        <div className="flex flex-col items-center justify-center px-2 pt-6">
           <h1 className="text-2xl font-semibold line-clamp-1">{community.title}</h1>
         </div>
         </div>

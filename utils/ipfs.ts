@@ -11,6 +11,7 @@ export async function uploadFile(fileToUpload :any){
       method: "POST",
       body: data
     });
+    console.log(res);
     const resData = await res.json();
     return resData.IpfsHash;
 }

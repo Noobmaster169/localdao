@@ -19,6 +19,7 @@ const config: Config = {
         p6: "#41d6db",
         p7: "#0f898d",
         darkBlue: "#051650",
+        darkerBlue: "#050640",
         borderBlue: "#00bfef",
         s1: "#080D27",
       },

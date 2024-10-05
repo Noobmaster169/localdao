@@ -1,21 +1,34 @@
 "use client";
-import { getContract, createThirdwebClient, readContract } from 'thirdweb';
+import { getContract, createThirdwebClient, readContract, Chain } from 'thirdweb';
 import ABI from './abi.json'
 import { defineChain } from 'thirdweb';
+import { scrollSepolia } from 'viem/chains';
 
-export const myChain = defineChain({
-    id: 534351,
-    rpc: "https://534351.rpc.thirdweb.com",
-});
+// export const myChain: Chain = defineChain({
+//     id: 534351,
+//     rpc: "https://534351.rpc.thirdweb.com",
+// });
 
-export const client = createThirdwebClient({
+export const client: any = createThirdwebClient({
     clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
 });
 
+const scrollSepoliaChain = {
+    ...scrollSepolia,
+    rpc: scrollSepolia.rpcUrls.default.http[0],
+    blockExplorers: [
+        {
+        name: scrollSepolia.blockExplorers.default.name,
+        url: scrollSepolia.blockExplorers.default.url,
+        apiUrl: scrollSepolia.blockExplorers.default.apiUrl,
+        },
+    ],
+}
+
 const anyABI :any = ABI
-export const contract = getContract({
+export const contract :any = getContract({
     client,
-    chain: myChain,
+    chain: scrollSepoliaChain,
     address: process.env.NEXT_PUBLIC_THIRDWEB_CONTRACT_ADDRESS as string,
     abi: anyABI
 })

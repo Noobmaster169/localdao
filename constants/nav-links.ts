@@ -5,6 +5,10 @@ export const links = [
     href: "/community",
   },
   {
+    name: "Create",
+    href: "/create"
+  },
+  {
     name: "Dashboard",
     href: "/dashboard",
   },

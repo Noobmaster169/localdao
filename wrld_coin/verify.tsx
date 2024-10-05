@@ -1,4 +1,5 @@
 "use client";
+import Button from "@/components/Button";
 import {
   IDKitWidget,
   VerificationLevel,
@@ -31,15 +32,14 @@ const onSuccess = (result: ISuccessResult) => {
 export default function Verify() {
   return (
     <IDKitWidget
-      app_id="app_staging_28012a01bf9a8f267acb4ffd2621687b"
-      action="testing_dao"
-      // On-chain only accepts Orb verifications
-      verification_level={VerificationLevel.Orb}
+      app_id="app_staging_7b3977fde4e8a5a48200d0917f45ed6b"
+      action="test_id"
+      // On-cloud supports Device and Orb
+      verification_level={VerificationLevel.Device}
       handleVerify={handleVerify}
       onSuccess={onSuccess}
-      onError={onError}
     >
-      {({ open }) => <button onClick={open}>Verify with World ID</button>}
+      {({ open }) => <Button text="Launch Now" onClick={open} />}
     </IDKitWidget>
   );
 }

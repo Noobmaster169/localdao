@@ -1,6 +1,6 @@
 import { getContract, createThirdwebClient, readContract } from 'thirdweb';
 import { scrollSepoliaTestnet } from 'thirdweb/chains';
-export { getVotingIDs, getVotingInfo, getFeedbackInfo, createVotingTask, voteForTask };
+export { getVotingIDs, getVotingInfo, getFeedbackInfo};
 
 
 const client = createThirdwebClient({
@@ -42,20 +42,24 @@ const getFeedbackInfo = async (id: bigint) => {
 };
 
 /** Writing -> Contract */
-const createVotingTask = async (name: string, uri: string, options: string[]) => {
-    const createdVoteTask = await readContract({
-        contract: contract,
-        method: 'createVoting',
-        params: [name, uri, options],
-    })
-    return createdVoteTask;
-};
+// const createVotingTask = async (name: string, uri: string, options: string[]) => {
+//     const createdVoteTask = await readContract({
+//         contract: contract,
+//         method: 'createVoting',
+//         params: [name, uri, options],
+//     })
+//     return createdVoteTask;
+// };
 
-const voteForTask = async (id: bigint, option: bigint, feedbackUri: string) => {
-    const votedTask = await readContract({
-        contract: contract,
-        method: 'vote',
-        params: [id, option, feedbackUri],
-    })
-    return votedTask;
-};
+// const voteForTask = async (id: bigint, option: bigint, feedbackUri: string) => {
+//     const votedTask = await readContract({
+//         contract: contract,
+//         method: 'vote',
+//         params: [id, option, feedbackUri],
+//     })
+//     return votedTask;
+// };
+
+(window as any).getVotingIDs = getVotingIDs;
+(window as any).getVotingInfo = getVotingInfo;
+(window as any).getFeedbackInfo = getFeedbackInfo;

@@ -29,6 +29,24 @@ body {
   background-size: cover;
 }
 
+.community-background {
+  position: relative;
+  min-height: 100vh;
+  background: url("/cyberpunk-2.jpg") no-repeat center center fixed;
+  background-size: cover
+}
+
+.community-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), black);
+  z-index: 1;
+}
+
 .background::before {
   content: "";
   position: absolute;
@@ -38,6 +56,10 @@ body {
   bottom: 0;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), black);
   z-index: 1;
+}
+
+.text-hella-large {
+  font-size: 6rem;
 }
 
 .glowing-border {

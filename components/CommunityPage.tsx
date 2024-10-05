@@ -1,20 +1,14 @@
+"use client"
 import Image from "next/image";
-import CommunityCard from "@/components/CommunityCard";
-import { title } from "process";
+import React from "react";
+import { useState } from "react";
+import Button from "./Button";
 import { ICommunity } from "@/models/community.models";
-import Hero from "@/components/Hero";
-import CommunityPage from "@/components/CommunityPage";
+import CommunityCard from "./CommunityCard";
 
-export default function Home() {
+const CommunityPage = () => {
 
   const mockData: ICommunity[] = [
-    // {
-    //   _id: 1,
-    //   title: "Coca Cola Survey",
-    //   imageUrl: "https://www.graphicpear.com/wp-content/uploads/2019/02/Coca-Cola-Logo-1.jpg",
-    //   description: "Coca Cola Survey lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum etc",
-    //   location: "Nairobi",
-    // },
     {
       _id: 2,
       title: "Pepsi Challenge",
@@ -78,24 +72,33 @@ export default function Home() {
       description: "Mountain Dew Adventure lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum etc",
       location: "Sydney",
     },
+    {
+      _id: 5,
+      title: "Mountain Dew Adventure",
+      imageUrl: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg3.wikia.nocookie.net%2F__cb20100630194920%2Flogopedia%2Fimages%2Fa%2Fae%2FNew_Mountian_Dew_logo.png&f=1&nofb=1&ipt=abb3595d4ddcd5c0630b858f45feee6cce787a94f523e9ef1e79ad7af334c6b2&ipo=images",
+      description: "Mountain Dew Adventure lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum etc",
+      location: "Sydney",
+    },
+    {
+      _id: 5,
+      title: "Mountain Dew Adventure",
+      imageUrl: "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg3.wikia.nocookie.net%2F__cb20100630194920%2Flogopedia%2Fimages%2Fa%2Fae%2FNew_Mountian_Dew_logo.png&f=1&nofb=1&ipt=abb3595d4ddcd5c0630b858f45feee6cce787a94f523e9ef1e79ad7af334c6b2&ipo=images",
+      description: "Mountain Dew Adventure lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum etc",
+      location: "Sydney",
+    },
   ];
 
-  // bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#123c78] via-[#000812]  to-[#0c2c58]
-
   return (
-    <>
-    <div className="background z-[-1] absolute top-0 w-full h-screen left-0"/>
-      {/* bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-[#1d1b45] via-[#0a0c1b]  to-[#1d1b45] */}
-      {/* <h1 className="text-4xl font-semibold text-blue-500/100 pb-20">Community Page</h1> */}
-      {/* <div className="flex justify-center items-center h-screen w-screen absolute -top-5 left-0 z-10 pt-10">
-        <div className="grid grid-cols-3 gap-12 mt-20 overflow-auto bg-red-500 h-fit p-20"> 
-          {mockData.map((community) => (  
-            <CommunityCard key={community._id} community={community} />
-          ))}
-        </div>
-      </div> */}
-      {/* <Hero /> */}
-      <CommunityPage />
-    </>
+    <div className="flex justify-center items-center w-screen h-fit flex-grow absolute top-0 left-0 z-10 pb-[160px]">
+      <div className="flex flex-grow flex-col gap-5 justify-center items-center h-full">
+        <div className="grid grid-cols-3 gap-12 mt-20 p-20 h-full"> 
+            {mockData.map((community) => (
+              <CommunityCard key={community._id} community={community} />
+            ))}
+          </div>
+      </div>
+    </div>
   );
-}
+};
+
+export default CommunityPage;

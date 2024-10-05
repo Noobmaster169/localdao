@@ -5,7 +5,6 @@ import {
   ISuccessResult,
 } from "@worldcoin/idkit";
 import React from "react";
-import Button from "./Button";
 
 const handleVerify = async (proof: ISuccessResult) => {
   const res = await fetch("/api/verify", {
@@ -38,8 +37,9 @@ export default function Verify() {
       verification_level={VerificationLevel.Orb}
       handleVerify={handleVerify}
       onSuccess={onSuccess}
+      onError={onError}
     >
-      {({ open }) => <Button text="Launch Now" onClick={open} />}
+      {({ open }) => <button onClick={open}>Verify with World ID</button>}
     </IDKitWidget>
   );
 }

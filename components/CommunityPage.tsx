@@ -1,12 +1,17 @@
 "use client";
 import Image from "next/image";
 import React from "react";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import Button from "./Button";
 import { ICommunity } from "@/models/community.models";
 import CommunityCard from "./CommunityCard";
-import { getContract, createThirdwebClient, readContract, Chain } from 'thirdweb';
-import ABI from '@/contract/localDAO/abi.json';
+import {
+  getContract,
+  createThirdwebClient,
+  readContract,
+  Chain,
+} from "thirdweb";
+import ABI from "@/contract/localDAO/abi.json";
 //import { scrollSepolia } from 'viem/chains';
 import { scrollSepolia } from "@/utils/chain";
 
@@ -24,12 +29,12 @@ const client: any = createThirdwebClient({
 //     },
 //   ],
 // }
-const contract :any = getContract({
+const contract: any = getContract({
   client,
   chain: scrollSepolia,
   address: "0x39683204f4822A75A3264a9e6583e9105fAD3fAc",
-  abi: ABI as any
-})
+  abi: ABI as any,
+});
 
 const mockData: ICommunity[] = [
   {
@@ -69,7 +74,7 @@ const mockData: ICommunity[] = [
 const CommunityPage = () => {
   const [counter, setCounter] = useState<number>(0);
   const [data, setData] = useState<ICommunity[]>([]);
-  
+
   useEffect(() => {
     getData();
   }, []);
@@ -77,24 +82,24 @@ const CommunityPage = () => {
   const getData = async () => {
     const counter = await readContract({
       contract: contract,
-      method: 'function getCounter() public view returns (uint256)',
-      params: []
-    })
+      method: "function getCounter() public view returns (uint256)",
+      params: [],
+    });
     const items: any = [];
-    for(let i = 1; i <= counter; i++){
-      const item:any = await readContract({
+    for (let i = 1; i <= counter; i++) {
+      const item: any = await readContract<any, any, any>({
         contract: contract,
-        method: 'getVoting',
-        params: [BigInt(i)]
-      })
+        method: "getVoting",
+        params: [BigInt(i)],
+      });
       console.log(item);
       const res = await fetch(item.uri);
       const json = await res.json();
       console.log(json);
-      
+
       const convertedItem: ICommunity = {
         _id: i,
-        surveyTitle: json.name? json.name : json.surveyTitle,
+        surveyTitle: json.name ? json.name : json.surveyTitle,
         imageUrl: json.imageUrl,
         description: json.description,
         country: json.country,

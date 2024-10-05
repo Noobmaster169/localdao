@@ -3,6 +3,7 @@
 import { VerificationLevel, IDKitWidget, useIDKit } from "@worldcoin/idkit";
 import type { ISuccessResult } from "@worldcoin/idkit";
 import { verify } from "../app/api/verify/route";
+import Button from "./Button";
 
 export default function Home() {
   const app_id = process.env.NEXT_PUBLIC_WORLDCOIN_IDKIT_APP_ID as `app_${string}`;
@@ -48,13 +49,7 @@ export default function Home() {
           handleVerify={handleProof}
           verification_level={VerificationLevel.Device} // Change this to VerificationLevel.Device to accept Orb- and Device-verified users
         />
-        <button
-          style={{ backgroundColor: 'EEEEF0', color: 'black' }}
-          className="border border-black rounded-md"
-          onClick={() => setOpen(true)}
-        >
-          <div className="mx-3 my-1">Verify with World ID</div>
-        </button>
+        <Button text="Verify with World ID" onClick={() => setOpen(true)} />
       </div>
     </div>
   );

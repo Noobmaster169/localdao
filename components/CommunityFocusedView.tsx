@@ -1,9 +1,13 @@
 import React from "react";
 import Modal from "react-modal";
 import { Styles } from "react-modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ICommunity } from "@/models/community.models";
+import { IoMdClose } from "react-icons/io";
+import OptionTag from "./OptionTag";
+import Button from "./Button";
+import { CgSpinner } from "react-icons/cg";
 
 type CommunityFocusedViewProps = {
   isOpen: boolean;
@@ -40,6 +44,11 @@ const CommunityFocusedView = ({
   };
 
   // border-[#40A4FF] border-[3px] shadow-[0_0_20px_#40A4FF]
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
+  useEffect(() => {
+    console.log(selectedOption);
+  }, [selectedOption]);
 
   return (
     <div className="gap-4 flex-col">
@@ -49,26 +58,53 @@ const CommunityFocusedView = ({
         onRequestClose={() => setIsOpen(false)}
         style={customStyles as Styles}
       >
-        <div className="flex flex-grow h-full w-[100vh] transform transition hover:shadow-lg p-16 bg-[#050915]">
-          {/* Image */}
-          <Image
-            src={community.imageUrl}
-            alt="coverImage"
-            width={250}
-            height={250}
-            className="h-[250px] w-[250px] object-cover"
-          />
-          {/* Text */}
-          <div className="flex flex-col pb-4 px-8 gap-1 font-geist-mono">
-            <h1 className="text-2xl font-semibold text-p4">
-              {community.title}
-            </h1>
-            <p className="text-md font-semibold text-p5">
-              Location: <span className="text-p4">{community.location}</span>
-            </p>
-            <p className="text-md pt-2 text-primary text-p5">
-              {community.description}
-            </p>
+        <div className="flex flex-col gap-4 h-full w-full justify-center items-center bg-[#050915]">
+          <div className="flex flex-grow h-fit w-[100vh] transform transition hover:shadow-lg p-16 pb-8">
+            {/* Image */}
+            <Image
+              src={community.imageUrl}
+              alt="coverImage"
+              width={250}
+              height={250}
+              className="h-[250px] w-[250px] object-cover"
+            />
+            {/* Text */}
+            <div className="flex flex-col pb-4 px-8 gap-1 font-geist-mono w-full h-full">
+              <h1 className="text-2xl font-semibold text-p4">
+                {community.surveyTitle}
+              </h1>
+              <p className="text-md font-semibold text-p5">
+                Location:{" "}
+                <span className="text-p4">
+                  {community.region}, {community.country}
+                </span>
+              </p>
+              <p className="text-md pt-2 text-primary text-p5">
+                {community.description}
+              </p>
+              <div className="w-full h-full grid grid-cols-2 py-4 gap-4">
+                {community.options.map((option, index) => (
+                  <OptionTag
+                    key={index}
+                    option={option}
+                    selectedOption={selectedOption}
+                    setSelectedOption={setSelectedOption}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="pb-16">
+            <button
+              className={`font-semibold p-2 py-4 rounded-2xl flex items-center justify-center w-full text-lg text-white bg-[#40A4FF] 
+              shadow-[0_0_30px_#40A4FF] drop-shadow-xl ${!selectedOption ? "opacity-50 pointer-events-none" : "opacity-100"} hover:bg-opacity-100 flex gap-2`}
+              onClick={() => {setIsOpen(false)}}
+              >
+                {false ? "Sending" : "Send Transaction"}
+                {false && <div className="animate-spin">
+                <CgSpinner />
+                </div>}
+            </button>
           </div>
         </div>
       </Modal>

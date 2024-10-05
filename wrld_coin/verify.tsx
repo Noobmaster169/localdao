@@ -1,5 +1,6 @@
 'use client'
 import { IDKitWidget, VerificationLevel, ISuccessResult } from '@worldcoin/idkit'
+import React from 'react'
 
 const handleVerify = async (proof: ISuccessResult) => {
     const res = await fetch('/api/verify', {
@@ -10,7 +11,7 @@ const handleVerify = async (proof: ISuccessResult) => {
         body: JSON.stringify(proof),
     })
     if (!res.ok) {
-        throw new Error('Failed to verify proof');
+        throw new Error('It happens here');
     }
 }
 
@@ -26,17 +27,19 @@ const onSuccess = (result: ISuccessResult) => {
 export default function Verify() {
     return (
         <IDKitWidget
-            app_id="your app id" // obtained from the Developer Portal
-            action="your action id" // obtained from the Developer Portal
-            onSuccess={onSuccess} // callback when the modal is closed
-            onError={onError} // callback when an error occurs
-            handleVerify={handleVerify} // callback when the proof is received
+            app_id="app_staging_28012a01bf9a8f267acb4ffd2621687b"
+            action="testing_dao"
+            // On-chain only accepts Orb verifications
             verification_level={VerificationLevel.Orb}
-        >
-            {({ open }) => 
-                // This is the button that will open the IDKit modal
-                <button onClick={open}>Verify with World ID</button>
-            }
+            handleVerify={handleVerify}
+            onSuccess={onSuccess}>
+            {({ open }) => (
+            <button
+                onClick={open}
+            >
+                Verify with World ID
+            </button>
+            )}
         </IDKitWidget>
     );
 }

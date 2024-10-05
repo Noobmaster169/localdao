@@ -63,33 +63,35 @@ export default function NavBar() {
                 <h1 className="hidden md:block text-semibold text-3xl tracking-wider opacity-0 pointer-events-none">
                   Deducation
                 </h1>
-                {pathname !== "/" && (
-                  <div>
-                    <ConnectButton
-                      client={client}
-                      wallets={wallets}
-                      appMetadata={{
-                        name: "Luca3Auth",
-                        url: "https://luca3auth.com",
-                        logoUrl: "/Luca3.png",
-                      }}
-                      autoConnect={true}
-                      chains={[baseSepolia]}
-                      connectButton={{
-                        label: "Connect Wallet",
-                      }}
-                      connectModal={{
-                        title: "Connect Wallet to LOCALDAO",
-                        showThirdwebBranding: false,
-                      }}
-                      showAllWallets={false}
-                      accountAbstraction={{
-                        chain: baseSepolia,
-                        sponsorGas: true,
-                      }}
-                    />
-                  </div>
-                )}
+                <div
+                  className={`${
+                    pathname === "/" ? "opacity-0 pointer-events-none" : ""
+                  }`}
+                >
+                  <ConnectButton
+                    client={client}
+                    wallets={wallets}
+                    appMetadata={{
+                      name: "Luca3Auth",
+                      url: "https://luca3auth.com",
+                      logoUrl: "/Luca3.png",
+                    }}
+                    autoConnect={true}
+                    chains={[baseSepolia]}
+                    connectButton={{
+                      label: "Connect Wallet",
+                    }}
+                    connectModal={{
+                      title: "Connect Wallet to LOCALDAO",
+                      showThirdwebBranding: false,
+                    }}
+                    showAllWallets={false}
+                    accountAbstraction={{
+                      chain: baseSepolia,
+                      sponsorGas: true,
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </nav>

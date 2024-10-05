@@ -2,7 +2,6 @@
 
 import { VerificationLevel, IDKitWidget, useIDKit } from "@worldcoin/idkit";
 import type { ISuccessResult } from "@worldcoin/idkit";
-import { verify } from "../app/api/verify/route";
 import Button from "./Button";
 
 export default function Home() {
@@ -26,11 +25,35 @@ export default function Home() {
   };
 
   const handleProof = async (result: ISuccessResult) => {
+    // console.log(
+    //   "Proof received from IDKit, sending to backend:\n",
+    //   JSON.stringify(result)
+    // ); // Log the proof from IDKit to the console for visibility
+    // const data = await verify(result);
+    // if (data.success) {
+    //   console.log("Successful response from backend:\n", JSON.stringify(data)); // Log the response from our backend for visibility
+    // } else {
+    //   throw new Error(`Verification failed: ${data.detail}`);
+    // }
     console.log(
       "Proof received from IDKit, sending to backend:\n",
       JSON.stringify(result)
-    ); // Log the proof from IDKit to the console for visibility
-    const data = await verify(result);
+    );
+    const res = await fetch("/api/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(result),
+    });
+    console.log("Result from POST request:", res);
+    if (!res.ok) {
+      throw new Error(`HTTP error. status: ${res.status}`);
+    }
+    const data = await res.json();
+    console.log("Verification response:", data);
+    console.log("data.success:", data.success);
+
     if (data.success) {
       console.log("Successful response from backend:\n", JSON.stringify(data)); // Log the response from our backend for visibility
     } else {

@@ -63,11 +63,7 @@ export default function NavBar() {
                 <h1 className="hidden md:block text-semibold text-3xl tracking-wider opacity-0 pointer-events-none">
                   Deducation
                 </h1>
-                <div
-                  className={`${
-                    pathname === "/" ? "opacity-0 pointer-events-none" : ""
-                  }`}
-                >
+                <div>
                   <ConnectButton
                     client={client}
                     wallets={wallets}

@@ -3,8 +3,14 @@
 import { VerificationLevel, IDKitWidget, useIDKit } from "@worldcoin/idkit";
 import type { ISuccessResult } from "@worldcoin/idkit";
 import Button from "./Button";
+import { useRouter } from "next/navigation";
 
-export default function Home() {
+type props = {
+  hasLoggedIn: boolean;
+  setHasLoggedIn: (value: boolean) => void;
+};
+
+export default function Home({ hasLoggedIn, setHasLoggedIn }: props) {
   const app_id = process.env
     .NEXT_PUBLIC_WORLDCOIN_IDKIT_APP_ID as `app_${string}`;
   const action = process.env.NEXT_PUBLIC_WORLDCOIN_IDKIT_ACTION_ID;
@@ -18,10 +24,12 @@ export default function Home() {
 
   const { setOpen } = useIDKit();
 
+  const router = useRouter();
+
   const onSuccess = (result: ISuccessResult) => {
     // This is where you should perform frontend actions once a user has been verified, such as redirecting to a new page
-    window.alert("Successfully verified with World ID! Logging in...");
-    window.location.href = "/"; // Redirect the user to the success page once they have been verified.
+    router.push("/dashboard");
+    setHasLoggedIn(true);
   };
 
   const handleProof = async (result: ISuccessResult) => {

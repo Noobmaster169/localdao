@@ -18,7 +18,7 @@ const CommunityCard = ({ community }: communityCardProps) => {
     <div className="">
       <div
         className="
-          flex flex-col box w-full h-full items-center justify-center bg-opacity-50 bg-[#051650]
+          flex flex-col box w-full h-full items-center justify-center bg-opacity-50 bg-darkBlue
           hover:cursor-pointer transform transition duration-300  pb-4 z-15"
         onClick={() => setIsOpen(true)}
       >

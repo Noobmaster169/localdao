@@ -4,4 +4,8 @@ export const links = [
     name: "Community",
     href: "/community",
   },
+  {
+    name: "Create",
+    href: "/create"
+  }
 ];

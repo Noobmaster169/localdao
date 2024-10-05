@@ -99,7 +99,7 @@ export default function Home() {
     //   </footer>
     // </div>
     <>
-      <div className="background z-[-1] absolute top-0 w-full h-full left-0" />
+      <div className="background z-[-1] -mt-24 absolute top-0 w-full h-full left-0" />
       <Hero />
     </>
   );

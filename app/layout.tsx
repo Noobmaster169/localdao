@@ -37,10 +37,10 @@ export default function RootLayout({
     <ThirdwebProvider>
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased flex-col flex`}
         >
           <NavBar />
-          <div className="pt-15">{children}</div>
+          <div className="mt-24">{children}</div>
         </body>
       </html>
     </ThirdwebProvider>

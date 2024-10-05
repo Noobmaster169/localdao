@@ -41,7 +41,7 @@ export default function NavBar() {
         ${
           hasScrolled
             ? "pt-2 pb-3 bg-black bg-opacity-50 backdrop-blur-[8px]"
-            : ""
+            : "bg-clear"
         }`}
     >
       <div className="container flex h-14 items-center ">
@@ -68,7 +68,7 @@ export default function NavBar() {
                     client={client}
                     wallets={wallets}
                     appMetadata={{
-                      name: "Luca3Auth",
+                      name: "LocalDAO",
                       url: "https://luca3auth.com",
                       logoUrl: "/Luca3.png",
                     }}

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import Button from "./Button";
+import Verify from "./Verify";
 
 const Hero = () => {
   return (
@@ -19,7 +20,8 @@ const Hero = () => {
           the Local Community
         </p>
         <div className="mt-8">
-          <Button text="Launch App" />
+          <Verify />
+          {/* <Button text="Launch App" /> */}
         </div>
       </div>
       <div className="absolute bottom-[10%] flex flex-col justify-center items-center gap-5">

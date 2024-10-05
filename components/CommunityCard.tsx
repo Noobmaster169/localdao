@@ -32,7 +32,7 @@ const CommunityCard = ({ community }: communityCardProps) => {
           />
           <div className="flex flex-col items-center justify-center px-2">
             <h1 className="text-2xl font-semibold line-clamp-1 -mt-2 font-geist-mono pb-1 text-center text-p4 z-10">
-              {community.title}
+              {community.surveyTitle}
             </h1>
           </div>
         </div>

@@ -1,5 +1,6 @@
 'use client'
 import { IDKitWidget, VerificationLevel, ISuccessResult } from '@worldcoin/idkit'
+import React from 'react'
 
 const handleVerify = async (proof: ISuccessResult) => {
     const res = await fetch('/api/verify', {
@@ -10,13 +11,13 @@ const handleVerify = async (proof: ISuccessResult) => {
         body: JSON.stringify(proof),
     })
     if (!res.ok) {
-        throw new Error('Failed to verify proof');
+        throw new Error('It happens here');
     }
 }
 
-const onError = (error: any) => {
-    console.error('Error occurred: ', error);
-}
+// const onError = (error: any) => {
+//     console.error('Error occurred: ', error);
+// }
 
 const onSuccess = (result: ISuccessResult) => {
     console.log('World ID popup closed: ', result);
@@ -26,17 +27,19 @@ const onSuccess = (result: ISuccessResult) => {
 export default function Verify() {
     return (
         <IDKitWidget
-            app_id="your app id" // obtained from the Developer Portal
-            action="your action id" // obtained from the Developer Portal
-            onSuccess={onSuccess} // callback when the modal is closed
-            onError={onError} // callback when an error occurs
-            handleVerify={handleVerify} // callback when the proof is received
-            verification_level={VerificationLevel.Orb}
-        >
-            {({ open }) => 
-                // This is the button that will open the IDKit modal
-                <button onClick={open}>Verify with World ID</button>
-            }
+            app_id="app_staging_7b3977fde4e8a5a48200d0917f45ed6b"
+            action="test_id"
+            // On-cloud supports Device and Orb
+            verification_level={VerificationLevel.Device}
+            handleVerify={handleVerify}
+            onSuccess={onSuccess}>
+            {({ open }) => (
+            <button
+                onClick={open}
+            >
+                Verify with World ID
+            </button>
+            )}
         </IDKitWidget>
     );
 }

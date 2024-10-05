@@ -1,8 +1,17 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import Verify from "./Verify";
+import { useRouter } from "next/navigation";
+import Button from "./Button";
 
 const Hero = () => {
+  const router = useRouter();
+  const handleOnClick = () => {
+    router.push("/dashboard");
+  };
+
   return (
     <div className="flex justify-center items-center h-screen w-screen absolute top-0 left-0 z-10">
       <div className="flex flex-col gap-5 justify-center items-center pb-[160px]">
@@ -19,8 +28,8 @@ const Hero = () => {
           the Local Community
         </p>
         <div className="mt-8">
-          <Verify />
-          {/* <Button text="Launch App" /> */}
+          {/* <Verify /> */}
+          <Button text="Launch App" onClick={handleOnClick} />
         </div>
       </div>
       <div className="absolute bottom-[10%] flex flex-col justify-center items-center gap-5">

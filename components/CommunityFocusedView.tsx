@@ -7,6 +7,7 @@ import { ICommunity } from "@/models/community.models";
 import { IoMdClose } from "react-icons/io";
 import OptionTag from "./OptionTag";
 import Button from "./Button";
+import { CgSpinner } from "react-icons/cg";
 
 type CommunityFocusedViewProps = {
   isOpen: boolean;
@@ -94,7 +95,16 @@ const CommunityFocusedView = ({
             </div>
           </div>
           <div className="pb-16">
-            <Button text="Send Transaction" />
+            <button
+              className={`font-semibold p-2 py-4 rounded-2xl flex items-center justify-center w-full text-lg text-white bg-[#40A4FF] 
+              shadow-[0_0_30px_#40A4FF] drop-shadow-xl ${!selectedOption ? "opacity-50 pointer-events-none" : "opacity-100"} hover:bg-opacity-100 flex gap-2`}
+              onClick={() => {setIsOpen(false)}}
+              >
+                {false ? "Sending" : "Send Transaction"}
+                {false && <div className="animate-spin">
+                <CgSpinner />
+                </div>}
+            </button>
           </div>
         </div>
       </Modal>

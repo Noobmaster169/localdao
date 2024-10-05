@@ -1,59 +1,36 @@
-import { type IVerifyResponse, verifyCloudProof } from "@worldcoin/idkit";
-import { NextApiRequest, NextApiResponse } from "next";
+"use server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const proof = req.body;
-  const app_id = process.env.APP_ID as `app_${string}`;
-  const action_id = process.env.ACTION_ID;
+import { VerificationLevel } from "@worldcoin/idkit-core";
+import { verifyCloudProof } from "@worldcoin/idkit-core/backend";
 
-  console.log("inside of handler");
+export type VerifyReply = {
+  success: boolean;
+  code?: string;
+  attribute?: string | null;
+  detail?: string;
+};
 
-  if (!app_id || !action_id) {
-    res
-      .status(400)
-      .send({ success: false, message: "Missing app_id or action_id" });
-    return;
-  }
-
-  const verifyRes = (await verifyCloudProof(
-    proof,
-    app_id,
-    action_id
-  )) as IVerifyResponse;
-
-  if (verifyRes.success) {
-    res.status(200).send(verifyRes);
-  } else {
-    res.status(400).send(verifyRes);
-  }
+interface IVerifyRequest {
+  proof: {
+    nullifier_hash: string;
+    merkle_root: string;
+    proof: string;
+    verification_level: VerificationLevel;
+  };
+  signal?: string;
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const proof = req.body;
-  const app_id = process.env.APP_ID as `app_${string}`;
-  const action_id = process.env.ACTION_ID;
+const app_id = process.env.NEXT_PUBLIC_WORLDCOIN_IDKIT_APP_ID as `app_${string}`;
+const action = process.env.NEXT_PUBLIC_WORLDCOIN_IDKIT_ACTION_ID as string;
 
-  console.log("inside of post");
-
-  if (!app_id || !action_id) {
-    res
-      .status(400)
-      .send({ success: false, message: "Missing app_id or action_id" });
-    return;
-  }
-
-  const verifyRes = (await verifyCloudProof(
-    proof,
-    app_id,
-    action_id
-  )) as IVerifyResponse;
-
+export async function verify(
+  proof: IVerifyRequest["proof"],
+  signal?: string
+): Promise<VerifyReply> {
+  const verifyRes = await verifyCloudProof(proof, app_id, action, signal);
   if (verifyRes.success) {
-    res.status(200).send(verifyRes);
+    return { success: true };
   } else {
-    res.status(400).send(verifyRes);
+    return { success: false, code: verifyRes.code, attribute: verifyRes.attribute, detail: verifyRes.detail };
   }
 }

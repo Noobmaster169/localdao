@@ -6,14 +6,14 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Button from "./Button";
 import { ConnectButton } from "thirdweb/react";
-import { baseSepolia } from "thirdweb/chains";
+import { scrollSepoliaTestnet } from "thirdweb/chains";
 import { inAppWallet, createWallet } from "thirdweb/wallets";
 import { client } from "@/constants";
 
 const wallets = [
   inAppWallet({
     smartAccount: {
-      chain: baseSepolia,
+      chain: scrollSepoliaTestnet,
       sponsorGas: true,
     },
   }),
@@ -21,8 +21,8 @@ const wallets = [
 ];
 
 export default function NavBar() {
+  const pathname = usePathname();
   const [hasScrolled, setHasScrolled] = useState<boolean>(false);
-  const [dropdown, setDropdown] = useState<boolean>(false);
   useEffect(() => {
     const handleScroll = () => {
       setHasScrolled(window.scrollY > 32);
@@ -68,14 +68,14 @@ export default function NavBar() {
                     client={client}
                     wallets={wallets}
                     appMetadata={{
-                      name: "Luca3Auth",
+                      name: "LocalDAO",
                       url: "https://luca3auth.com",
                       logoUrl: "/Luca3.png",
                     }}
                     autoConnect={true}
-                    chains={[baseSepolia]}
+                    chains={[scrollSepoliaTestnet]}
                     connectButton={{
-                      label: "Get Started",
+                      label: "Connect Wallet",
                     }}
                     connectModal={{
                       title: "Connect Wallet to LOCALDAO",
@@ -83,7 +83,7 @@ export default function NavBar() {
                     }}
                     showAllWallets={false}
                     accountAbstraction={{
-                      chain: baseSepolia,
+                      chain: scrollSepoliaTestnet,
                       sponsorGas: true,
                     }}
                   />

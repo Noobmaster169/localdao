@@ -7,5 +7,9 @@ export const links = [
   {
     name: "Create",
     href: "/create"
-  }
+  },
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+  },
 ];

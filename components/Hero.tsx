@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import Button from "./Button";
+import Verify from "./Verify";
 
 const Hero = () => {
   return (
@@ -8,45 +9,46 @@ const Hero = () => {
       <div className="flex flex-col gap-5 justify-center items-center pb-[160px]">
         <h1
           className="
-          text-p4 font-geist-sans font-semibold text-6xl tracking-wider
+          text-p4 font-geist-sans font-semibold text-hella-large tracking-wider
             bg-clip-text text-transparent bg-gradient-to-r from-p4 to-[#7b809d]
           "
         >
           LOCALDAO
         </h1>
-        <p className="text-p5 font-geist-mono text-2xl tracking-wide">
+        <p className="text-p5 font-geist-mono font-bold text-2xl tracking-wide -mt-8">
           Providing <span className="text-p6">Valuable Information</span> from
           the Local Community
         </p>
         <div className="mt-8">
-          <Button text="Launch App" />
+          <Verify />
+          {/* <Button text="Launch App" /> */}
         </div>
       </div>
       <div className="absolute bottom-[10%] flex flex-col justify-center items-center gap-5">
-        <p className="font-geist-mono text-p5 font-semibold text-xl">
+        <p className="font-geist-mono text-p4 font-semibold text-xl">
           Powered By
         </p>
-        <div className="flex justify-center items-center px-6 bg-p4 rounded-2xl gap-4">
+        <div className="flex justify-center items-center px-6 rounded-2xl gap-4">
           <Image
-            src="https://framerusercontent.com/images/VkDWRpObJDOFgaJ1JQQ5YTM.png"
+            src="/scroll-lighttext.png"
             alt="scroll"
             width={100}
             height={100}
           />
           <Image
-            src="https://framerusercontent.com/images/nKgNpbqpV3J3dJJShj4It2aopo.png"
+            src="/worldcoin-lighttext.png"
             alt="worldcoin"
-            width={200}
-            height={200}
+            width={150}
+            height={150}
           />
           <Image
-            src="https://framerusercontent.com/images/GjHgeSyedg4lNC23CI9o6nbS7U.png"
+            src="/thegraph-lighttext.png"
             alt="thegraph"
             width={130}
             height={130}
           />
           <Image
-            src="https://framerusercontent.com/images/Z28smtWXfSjinRvEl2pl1elKk.png"
+            src="/tlsnotary-lighttext.png"
             alt="tlsnotary"
             width={130}
             height={130}

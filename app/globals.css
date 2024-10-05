@@ -40,6 +40,10 @@ body {
   z-index: 1;
 }
 
+.text-hella-large {
+  font-size: 6rem;
+}
+
 .glowing-border {
   border: 2px solid var(--color-borderBlue);
   box-shadow: 0 0 10px var(--color-borderBlue), 0 0 20px var(--color-borderBlue),

@@ -21,8 +21,8 @@ const wallets = [
 ];
 
 export default function NavBar() {
+  const pathname = usePathname();
   const [hasScrolled, setHasScrolled] = useState<boolean>(false);
-  const [dropdown, setDropdown] = useState<boolean>(false);
   useEffect(() => {
     const handleScroll = () => {
       setHasScrolled(window.scrollY > 32);
@@ -63,7 +63,11 @@ export default function NavBar() {
                 <h1 className="hidden md:block text-semibold text-3xl tracking-wider opacity-0 pointer-events-none">
                   Deducation
                 </h1>
-                <div>
+                <div
+                  className={`${
+                    pathname === "/" ? "opacity-0 pointer-events-none" : ""
+                  }`}
+                >
                   <ConnectButton
                     client={client}
                     wallets={wallets}
@@ -75,7 +79,7 @@ export default function NavBar() {
                     autoConnect={true}
                     chains={[baseSepolia]}
                     connectButton={{
-                      label: "Get Started",
+                      label: "Connect Wallet",
                     }}
                     connectModal={{
                       title: "Connect Wallet to LOCALDAO",

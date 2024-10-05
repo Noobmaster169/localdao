@@ -4,6 +4,7 @@ import React from "react";
 import Typewriter from 'typewriter-effect';
 import { useState } from "react";
 import Button from "./Button";
+import Verify from "./Verify";
 
 {/* <div className="flex flex-col gap-5 justify-center items-center pb-[160px]">
         <h1
@@ -19,7 +20,8 @@ import Button from "./Button";
           the Local Community
         </p>
         <div className="mt-8">
-          <Button text="Launch App" />
+          <Verify />
+          {/* <Button text="Launch App" /> */}
         </div>
       </div> */}
 

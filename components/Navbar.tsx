@@ -21,8 +21,8 @@ const wallets = [
 ];
 
 export default function NavBar() {
+  const pathname = usePathname();
   const [hasScrolled, setHasScrolled] = useState<boolean>(false);
-  const [dropdown, setDropdown] = useState<boolean>(false);
   useEffect(() => {
     const handleScroll = () => {
       setHasScrolled(window.scrollY > 32);
@@ -63,31 +63,33 @@ export default function NavBar() {
                 <h1 className="hidden md:block text-semibold text-3xl tracking-wider opacity-0 pointer-events-none">
                   Deducation
                 </h1>
-                <div>
-                  <ConnectButton
-                    client={client}
-                    wallets={wallets}
-                    appMetadata={{
-                      name: "Luca3Auth",
-                      url: "https://luca3auth.com",
-                      logoUrl: "/Luca3.png",
-                    }}
-                    autoConnect={true}
-                    chains={[baseSepolia]}
-                    connectButton={{
-                      label: "Get Started",
-                    }}
-                    connectModal={{
-                      title: "Connect Wallet to LOCALDAO",
-                      showThirdwebBranding: false,
-                    }}
-                    showAllWallets={false}
-                    accountAbstraction={{
-                      chain: baseSepolia,
-                      sponsorGas: true,
-                    }}
-                  />
-                </div>
+                {pathname !== "/" && (
+                  <div>
+                    <ConnectButton
+                      client={client}
+                      wallets={wallets}
+                      appMetadata={{
+                        name: "Luca3Auth",
+                        url: "https://luca3auth.com",
+                        logoUrl: "/Luca3.png",
+                      }}
+                      autoConnect={true}
+                      chains={[baseSepolia]}
+                      connectButton={{
+                        label: "Connect Wallet",
+                      }}
+                      connectModal={{
+                        title: "Connect Wallet to LOCALDAO",
+                        showThirdwebBranding: false,
+                      }}
+                      showAllWallets={false}
+                      accountAbstraction={{
+                        chain: baseSepolia,
+                        sponsorGas: true,
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </nav>

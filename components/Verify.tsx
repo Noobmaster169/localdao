@@ -6,7 +6,8 @@ import { verify } from "../app/api/verify/route";
 import Button from "./Button";
 
 export default function Home() {
-  const app_id = process.env.NEXT_PUBLIC_WORLDCOIN_IDKIT_APP_ID as `app_${string}`;
+  const app_id = process.env
+    .NEXT_PUBLIC_WORLDCOIN_IDKIT_APP_ID as `app_${string}`;
   const action = process.env.NEXT_PUBLIC_WORLDCOIN_IDKIT_ACTION_ID;
 
   if (!app_id) {
@@ -20,9 +21,7 @@ export default function Home() {
 
   const onSuccess = (result: ISuccessResult) => {
     // This is where you should perform frontend actions once a user has been verified, such as redirecting to a new page
-    window.alert(
-      "Successfully verified with World ID! Logging in..."
-    );
+    window.alert("Successfully verified with World ID! Logging in...");
     window.location.href = "/"; // Redirect the user to the success page once they have been verified.
   };
 
@@ -41,7 +40,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex flex-col items-center justify-center align-middle h-screen">
+      <div className="flex flex-col items-center justify-center align-middle">
         <IDKitWidget
           action={action}
           app_id={app_id}

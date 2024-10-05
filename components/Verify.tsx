@@ -20,9 +20,9 @@ export default function Home() {
   const onSuccess = (result: ISuccessResult) => {
     // This is where you should perform frontend actions once a user has been verified, such as redirecting to a new page
     window.alert(
-      "Successfully verified with World ID! Your nullifier hash is: " +
-        result.nullifier_hash
+      "Successfully verified with World ID! Logging in..."
     );
+    window.location.href = "/"; // Redirect the user to the success page once they have been verified.
   };
 
   const handleProof = async (result: ISuccessResult) => {

@@ -6,14 +6,14 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Button from "./Button";
 import { ConnectButton } from "thirdweb/react";
-import { baseSepolia } from "thirdweb/chains";
+import { scrollSepoliaTestnet } from "thirdweb/chains";
 import { inAppWallet, createWallet } from "thirdweb/wallets";
 import { client } from "@/constants";
 
 const wallets = [
   inAppWallet({
     smartAccount: {
-      chain: baseSepolia,
+      chain: scrollSepoliaTestnet,
       sponsorGas: true,
     },
   }),
@@ -73,7 +73,7 @@ export default function NavBar() {
                       logoUrl: "/Luca3.png",
                     }}
                     autoConnect={true}
-                    chains={[baseSepolia]}
+                    chains={[scrollSepoliaTestnet]}
                     connectButton={{
                       label: "Connect Wallet",
                     }}
@@ -83,7 +83,7 @@ export default function NavBar() {
                     }}
                     showAllWallets={false}
                     accountAbstraction={{
-                      chain: baseSepolia,
+                      chain: scrollSepoliaTestnet,
                       sponsorGas: true,
                     }}
                   />

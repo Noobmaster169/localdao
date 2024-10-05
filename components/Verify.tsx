@@ -49,6 +49,7 @@ export default function Home() {
           verification_level={VerificationLevel.Device} // Change this to VerificationLevel.Device to accept Orb- and Device-verified users
         />
         <button
+          style={{ backgroundColor: 'EEEEF0', color: 'black' }}
           className="border border-black rounded-md"
           onClick={() => setOpen(true)}
         >

@@ -1,7 +1,9 @@
 export interface ICommunity {
-    _id: number;
-    title: string;
-    imageUrl: string;
-    description: string;
-    location: string;
+  _id: number;
+  surveyTitle: string;
+  imageUrl: string;
+  description: string;
+  country: string;
+  region: string;
+  options: string[];
 }

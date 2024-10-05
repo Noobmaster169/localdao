@@ -6,14 +6,28 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Button from "./Button";
 import { ConnectButton } from "thirdweb/react";
-import { scrollSepoliaTestnet } from "thirdweb/chains";
 import { inAppWallet, createWallet } from "thirdweb/wallets";
 import { client } from "@/constants";
+import { scrollSepolia } from "@/utils/chain";
+//import { scrollSepoliaTestnet } from "thirdweb/chains";
+
+// const scrollSepoliaChain = {
+//   ...scrollSepolia,
+//   rpc: scrollSepolia.rpcUrls.default.http[0],
+//   blockExplorers: [
+//     {
+//       name: scrollSepolia.blockExplorers.default.name,
+//       url: scrollSepolia.blockExplorers.default.url,
+//       apiUrl: scrollSepolia.blockExplorers.default.apiUrl,
+//     },
+//   ],
+// }
 
 const wallets = [
   inAppWallet({
     smartAccount: {
-      chain: scrollSepoliaTestnet,
+      chain: scrollSepolia,
+      //chain: scrollSepoliaTestnet,
       sponsorGas: true,
     },
   }),
@@ -41,7 +55,7 @@ export default function NavBar() {
         ${
           hasScrolled
             ? "pt-2 pb-3 bg-black bg-opacity-50 backdrop-blur-[8px]"
-            : ""
+            : "bg-clear"
         }`}
     >
       <div className="container flex h-14 items-center ">
@@ -54,6 +68,7 @@ export default function NavBar() {
                 </h1>
                 <div className="opacity-0 pointer-events-none">
                   <ConnectButton client={client} />
+                  {/*<w3m-button/>*/}
                 </div>
               </div>
               <div className="gap-12 hidden md:flex center nav-li">
@@ -61,19 +76,21 @@ export default function NavBar() {
               </div>
               <div className="flex items-center nav-logo">
                 <h1 className="hidden md:block text-semibold text-3xl tracking-wider opacity-0 pointer-events-none">
-                  Deducation
+                  LOCAL DAO
                 </h1>
                 <div>
+                  {/*<w3m-button/>*/}
                   <ConnectButton
                     client={client}
                     wallets={wallets}
                     appMetadata={{
-                      name: "Luca3Auth",
+                      name: "LocalDAO",
                       url: "https://luca3auth.com",
                       logoUrl: "/Luca3.png",
                     }}
                     autoConnect={true}
-                    chains={[scrollSepoliaTestnet]}
+                    // chains={[myChain]}
+                    chains={[scrollSepolia]}
                     connectButton={{
                       label: "Connect Wallet",
                     }}
@@ -83,7 +100,8 @@ export default function NavBar() {
                     }}
                     showAllWallets={false}
                     accountAbstraction={{
-                      chain: scrollSepoliaTestnet,
+                      // chain: myChain,
+                      chain: scrollSepolia,
                       sponsorGas: true,
                     }}
                   />

@@ -37,13 +37,13 @@ const Hero = () => {
           Powered By
         </p>
         <div className="flex justify-center items-center px-6 rounded-2xl gap-4">
-          <Image
+          <img
             src="/scroll-lighttext.png"
             alt="scroll"
             width={100}
             height={100}
           />
-          <Image
+          <img
             src="/worldcoin-lighttext.png"
             alt="worldcoin"
             width={150}

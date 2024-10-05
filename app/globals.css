@@ -18,7 +18,7 @@
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: #000000;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -40,6 +40,65 @@ body {
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
+}
+
+.box-big {
+  --b: 4px; /* border */
+  --s: 20px; /* size of the cut */
+
+  width: 65vw;
+  display: inline-block;
+  aspect-ratio: 1.5;
+  position: relative;
+  z-index: 0;
+  /* background-color: #051650; */
+  clip-path: polygon(
+    var(--s) 0,
+    calc(100% - var(--s)) 0,
+    100% var(--s),
+    100% calc(100% - var(--s)),
+    calc(100% - var(--s)) 100%,
+    var(--s) 100%,
+    0 calc(100% - var(--s)),
+    0 var(--s)
+  );
+}
+
+.box-big:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(45deg, #182e6e, #2ef2ff);
+  --g1: #000 var(--b), #0000 0 calc(100% - var(--b)), #000 0;
+  --g2: #0000 calc(0.707 * var(--s)), #000 0 calc(0.707 * var(--s) + var(--b)),
+    #0000 0 calc(100% - 0.707 * var(--s) - var(--b)),
+    #000 0 calc(100% - 0.707 * var(--s)), #0000 0;
+  -webkit-mask: linear-gradient(-45deg, var(--g2)), no-repeat,
+    linear-gradient(180deg, var(--g1)) 50% / calc(100% - 2 * var(--s)) 100%
+      no-repeat;
+}
+
+.community-background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), black);
+  z-index: 1;
+}
+
+.background::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), black);
+  z-index: 1;
 }
 
 .transparent-background {

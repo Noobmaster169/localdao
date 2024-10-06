@@ -11,6 +11,7 @@ type JSONUploaderProps = {
   imageUrl: string;
   setFiles: Dispatch<SetStateAction<File[]>>;
   uploadToIpfs: any;
+  setProof:any;
 };
 
 const JSONUploader = ({
@@ -18,14 +19,16 @@ const JSONUploader = ({
   onFieldChange,
   setFiles,
   uploadToIpfs,
+  setProof,
 }: JSONUploaderProps) => {
   const [fileName, setFileName] = useState<string>("");
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setFiles(acceptedFiles);
     setFileName(acceptedFiles[0].name);
+
+    const fileContent = await acceptedFiles[0].text();
+    setProof(fileContent);
     onFieldChange(convertFileToUrl(acceptedFiles[0]));
-    await uploadToIpfs(acceptedFiles[0]);
-    console.log("Uploaded to IPFS!");
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({

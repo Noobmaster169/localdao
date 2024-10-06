@@ -39,6 +39,7 @@ import { getContract, createThirdwebClient } from "thirdweb";
 import ABI from "@/contract/localDAO/abi.json";
 import { scrollSepolia } from "@/utils/chain";
 import JSONUploader from "./JSONUploader";
+import { Identity } from "@semaphore-protocol/core"
 
 const client: any = createThirdwebClient({
   clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
@@ -64,6 +65,8 @@ const UploadJSONForm = ({
   const [isUploading, setIsUploading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [isBuilding, setIsBuilding] = useState(false);
+
+  const [proof, setProof] = useState<any>("");
   const [formData, setFormData] = useState({
     title: "",
     files: [] as File[],
@@ -101,14 +104,29 @@ const UploadJSONForm = ({
     //console.log(uploadToIpfs(form.getValues("imageUrl")))
     console.log("Submitted values:", values);
     setIsBuilding(true);
-    const jsonUpload = await uploadJSON(values);
-    const IPFSLink = await linkBuilder(jsonUpload);
-    console.log("Successfully uploaded and link built");
-    console.log(IPFSLink);
+    if(!proof){alert("Please upload a file"); return}
+
+    const _identity = new Identity();
+    let data = {
+      proof: JSON.parse(proof),
+      identityCommitment: {
+          commit: _identity.commitment.toString()
+      },
+    }
+    let response = await fetch("api/tlsn", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    })
+
+    if (response.status === 200) {
+      setHasUploaded(true);
+      setCountry(values.country);
+      setRegion(values.region);
+    }else{
+      alert("Error in generating proof")
+    }
     setIsBuilding(false);
-    setHasUploaded(true);
-    setCountry(values.country);
-    setRegion(values.region);
   }
 
   return (
@@ -130,6 +148,7 @@ const UploadJSONForm = ({
                         imageUrl={formData.imageUrl}
                         setFiles={setFiles}
                         uploadToIpfs={uploadToIpfs}
+                        setProof={setProof}
                         onFieldChange={(url: string) => {
                           setFormData((prevState) => ({
                             ...prevState,

@@ -9,6 +9,33 @@ import OptionTag from "./OptionTag";
 import Button from "./Button";
 import { CgSpinner } from "react-icons/cg";
 import CommunityReview from "./CommunityReview";
+import CommunityCard from "./CommunityCard";
+import {
+  getContract,
+  createThirdwebClient,
+  readContract,
+  Chain,
+} from "thirdweb";
+import ABI from "@/contract/localDAO/abi.json";
+import { scrollSepolia } from "@/utils/chain";
+import {
+  prepareContractCall,
+  toWei,
+  sendAndConfirmTransaction,
+  sendTransaction,
+} from "thirdweb";
+import { Account, createWallet } from "thirdweb/wallets";
+
+const client: any = createThirdwebClient({
+  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
+});
+
+const contract: any = getContract({
+  client,
+  chain: scrollSepolia,
+  address: "0x39683204f4822A75A3264a9e6583e9105fAD3fAc",
+  abi: ABI as any,
+});
 
 type CommunityFocusedViewProps = {
   isOpen: boolean;
@@ -48,6 +75,30 @@ const CommunityFocusedView = ({
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [reviewIsOpen, setReviewIsOpen] = useState(false);
   const [isOwner, setIsOwner] = useState(true);
+
+  const vote = async () => {
+    const wallet = createWallet("io.metamask");
+    const account = await wallet.connect({ client });
+    console.log("Account:", account);
+    const transaction: any = await prepareContractCall<any, any>({
+      contract: contract,
+      method: "vote",
+      params: [BigInt(1), BigInt(1)],
+    });
+    console.log(transaction);
+
+    const transactionResult = await sendTransaction({
+      transaction,
+      account,
+    });
+    console.log(transactionResult);
+    // const transactionReceipt = await sendAndConfirmTransaction({
+    //   account,
+    //   transaction,
+    // });
+    // alert(transactionReceipt);
+    console.log("Done");
+  };
 
   useEffect(() => {
     console.log(selectedOption);

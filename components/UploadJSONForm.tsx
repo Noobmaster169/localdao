@@ -36,13 +36,30 @@ import {
   fetchLinkData,
 } from "@/utils/ipfs";
 import { getContract, createThirdwebClient } from "thirdweb";
-import ABI from "@/contract/localDAO/abi.json";
+import ABI from "@/contract/verifier/abi.json";
 import { scrollSepolia } from "@/utils/chain";
 import JSONUploader from "./JSONUploader";
-import { Identity } from "@semaphore-protocol/core"
+import { Identity } from "@semaphore-protocol/core";
+import {
+  prepareContractCall,
+  toWei,
+  sendAndConfirmTransaction,
+  sendTransaction,
+} from "thirdweb";
+import { Account, createWallet } from "thirdweb/wallets";
+import { ThirdwebSDK, getProviderFromRpcUrl} from "@thirdweb-dev/sdk";
+// import { ethers } from "ethers";
+// import { useActiveAccount } from "thirdweb/react";
 
 const client: any = createThirdwebClient({
   clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
+});
+
+const contract: any = getContract({
+  client,
+  chain: scrollSepolia,
+  address: "0xD0940e213D8dD9EA159ed2C084e69760065cCA1f",
+  abi: ABI as any,
 });
 
 type props = {
@@ -65,6 +82,8 @@ const UploadJSONForm = ({
   const [isUploading, setIsUploading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [isBuilding, setIsBuilding] = useState(false);
+  const [result, setResult] = useState<ContractResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const [proof, setProof] = useState<any>("");
   const [formData, setFormData] = useState({
@@ -100,6 +119,42 @@ const UploadJSONForm = ({
     setIsUploading(false);
   };
 
+  //.const account = useActiveAccount();
+  
+  // async function verifyIdentity(){
+  //   alert("Verifying Identity")
+  //   try {
+  //     // Load environment variables from the .env.local file
+  //     const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL;
+  //     const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY;
+
+  //     if (!rpcUrl || !privateKey) {
+  //       throw new Error("Missing RPC URL or private key in environment variables");
+  //     }
+
+  //     // Create a provider and wallet
+  //     const provider = getProviderFromRpcUrl(rpcUrl, 534351);
+  //     const wallet = new ethers.Wallet(privateKey, provider);
+
+  //     // Initialize the Thirdweb SDK with the wallet
+  //     const sdk = new ThirdwebSDK(wallet);
+
+  //     // Get the contract (replace with your contract address)
+  //     const contract = await sdk.getContract("0xD0940e213D8dD9EA159ed2C084e69760065cCA1f");
+
+  //     // Call the contract function (replace with your function name and arguments)
+  //     const response = await contract.call("addUser", [account?.address]);
+
+  //     // Assuming the function returns a response that matches the ContractResponse type
+  //     setResult({
+  //       success: true,
+  //       message: `Transaction successful: ${JSON.stringify(response)}`,
+  //     });
+  //   } catch (err: any) {
+  //     setError(`Error calling function: ${err.message}`);
+  //   }
+  // }
+  
   async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     //console.log(uploadToIpfs(form.getValues("imageUrl")))
     console.log("Submitted values:", values);
@@ -120,6 +175,7 @@ const UploadJSONForm = ({
     })
 
     if (response.status === 200) {
+      //await verifyIdentity();
       setHasUploaded(true);
       setCountry(values.country);
       setRegion(values.region);

@@ -61,7 +61,7 @@ const JSONUploader = ({
       ) : (
         <div className="flex items-center justify-center flex-col py-5 bg-secondary bg-opacity-20 p-10 h-full">
           <h3 className="mb-6 mt-2 font-semibold text-[#40A4FF] text-center">
-            Upload your TLSNotary Proof (JSON)
+            Upload Zero Knowledge Identity Proof (JSON)
           </h3>
           <img
             src="icons/upload.svg"

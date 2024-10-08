@@ -13,7 +13,7 @@ const client: any = createThirdwebClient({
 });
 
 const page = () => {
-  const [hasLoggedIn, setHasLoggedIn] = useState<boolean>(false);
+  const [hasLoggedIn, setHasLoggedIn] = useState<boolean>(true);
   const [hasUploaded, setHasUploaded] = useState<boolean>(false);
   const [country, setCountry] = useState<string>("");
   const [region, setRegion] = useState<string>("");
@@ -68,7 +68,7 @@ const page = () => {
             ) : hasLoggedIn ? (
               <div className="mt-5 flex flex-col justify-center items-center">
                 <p className="text-4xl mt-6 font-semibold text-p6 text-center pt-6 font-geist-mono">
-                  Verify Your Location
+                  Intialize New User
                 </p>
 
                 <UploadJSONForm

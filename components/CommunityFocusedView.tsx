@@ -8,6 +8,7 @@ import { IoMdClose } from "react-icons/io";
 import OptionTag from "./OptionTag";
 import Button from "./Button";
 import { CgSpinner } from "react-icons/cg";
+import CommunityReview from "./CommunityReview";
 import CommunityCard from "./CommunityCard";
 import {
   getContract,
@@ -72,6 +73,8 @@ const CommunityFocusedView = ({
 
   // border-[#40A4FF] border-[3px] shadow-[0_0_20px_#40A4FF]
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [reviewIsOpen, setReviewIsOpen] = useState(false);
+  const [isOwner, setIsOwner] = useState(true);
 
   const vote = async () => {
     const wallet = createWallet("io.metamask");
@@ -145,29 +148,28 @@ const CommunityFocusedView = ({
               </div>
             </div>
           </div>
-          <div className="pb-16">
-            <button
+          <div className="pb-16 w-fit h-fit flex gap-4">
+            {!isOwner && <button
               className={`font-semibold p-2 py-4 rounded-2xl flex items-center justify-center w-full text-lg text-white bg-[#40A4FF] 
-              shadow-[0_0_30px_#40A4FF] drop-shadow-xl ${
-                !selectedOption
-                  ? "opacity-50 pointer-events-none"
-                  : "opacity-100"
-              } hover:bg-opacity-100 flex gap-2`}
-              onClick={async () => {
-                await vote();
-                setIsOpen(false);
-              }}
-            >
-              {false ? "Sending" : "Send Transaction"}
-              {false && (
-                <div className="animate-spin">
-                  <CgSpinner />
-                </div>
-              )}
-            </button>
+              shadow-[0_0_30px_#40A4FF] drop-shadow-xl ${!selectedOption ? "opacity-50 pointer-events-none" : "opacity-100"} hover:bg-opacity-100 flex gap-2`}
+              onClick={() => {setIsOpen(false)}}
+              >
+                {false ? "Sending" : "Send Transaction"}
+                {false && <div className="animate-spin">
+                <CgSpinner />
+                </div>}
+            </button>}
+            {isOwner && <button
+              className={`font-semibold px-3 py-4 rounded-2xl flex items-center justify-center w-full text-lg text-white bg-green-400 
+              shadow-[0_0_20px_#4ade80] drop-shadow-xl hover:bg-opacity-100 gap-2`}
+              onClick={() => {setReviewIsOpen(true)}}
+              >
+                Open Result
+              </button>}
           </div>
         </div>
       </Modal>
+      <CommunityReview isOpen={reviewIsOpen} setIsOpen={setReviewIsOpen} community={community} />
     </div>
   );
 };

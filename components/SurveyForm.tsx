@@ -57,7 +57,7 @@ const SurveyForm = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [isBuilding, setIsBuilding] = useState(false);
   const [newOption, setNewOption] = useState("");
-  const [amount, setAmount] = useState<number>("");
+  const [amount, setAmount] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     files: [] as File[],
@@ -127,7 +127,7 @@ const SurveyForm = () => {
       console.log("Program:", program);
 
       const tx = await program.methods
-        .initialize(new anchor.BN(amount * anchor.web3.LAMPORTS_PER_SOL), )
+        .initialize(new anchor.BN(parseFloat(amount) * anchor.web3.LAMPORTS_PER_SOL), )
         .accounts({
           votingManager: votingManager,
           authority : wallet.publicKey

@@ -35,9 +35,9 @@ const mockData: ICommunity[] = [
     imageUrl:
       "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg3.wikia.nocookie.net%2F__cb20100630194920%2Flogopedia%2Fimages%2Fa%2Fae%2FNew_Mountian_Dew_logo.png&f=1&nofb=1&ipt=abb3595d4ddcd5c0630b858f45feee6cce787a94f523e9ef1e79ad7af334c6b2&ipo=images",
     description:
-      "Which one is your favourite Mountain Dew Flavours",
-    country: "Australia",
-    region: "Sydney",
+      "Which one is your favourite Mountain Dew Flavours?",
+    country: "Malaysia",
+    region: "Selangor",
     options: ["Mountain Dew", "Red Code", "Raspberry"],
   },
 ];

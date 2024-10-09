@@ -35,32 +35,13 @@ import {
   fetchJSON,
   fetchLinkData,
 } from "@/utils/ipfs";
-import { getContract, createThirdwebClient } from "thirdweb";
-import ABI from "@/contract/verifier/abi.json";
-import { scrollSepolia } from "@/utils/chain";
 import JSONUploader from "./JSONUploader";
-import { Identity } from "@semaphore-protocol/core";
-import {
-  prepareContractCall,
-  toWei,
-  sendAndConfirmTransaction,
-  sendTransaction,
-} from "thirdweb";
-import { Account, createWallet } from "thirdweb/wallets";
-import { ThirdwebSDK, getProviderFromRpcUrl} from "@thirdweb-dev/sdk";
-// import { ethers } from "ethers";
-// import { useActiveAccount } from "thirdweb/react";
-
-const client: any = createThirdwebClient({
-  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
-});
-
-const contract: any = getContract({
-  client,
-  chain: scrollSepolia,
-  address: "0xD0940e213D8dD9EA159ed2C084e69760065cCA1f",
-  abi: ABI as any,
-});
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { PublicKey } from "@solana/web3.js";
+import IDL from "@/anchor/idl.json";
+import * as anchor from '@project-serum/anchor';
+import { findProgramAddressSync } from '@project-serum/anchor/dist/cjs/utils/pubkey';
+import { Anchor } from "lucide-react";
 
 type props = {
   hasUploaded: boolean;
@@ -79,11 +60,13 @@ const UploadJSONForm = ({
   region,
   setRegion,
 }: props) => {
+  const wallet = useAnchorWallet();
+  const { connection } = useConnection();
+  const programId = new PublicKey("GQq7ZdCqWXLjNnNjjWJmgFNxNdomW34enX48owiP2WHP")
+  
   const [isUploading, setIsUploading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [isBuilding, setIsBuilding] = useState(false);
-  const [result, setResult] = useState<ContractResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
 
   const [proof, setProof] = useState<any>("");
   const [formData, setFormData] = useState({
@@ -161,27 +144,42 @@ const UploadJSONForm = ({
     setIsBuilding(true);
     if(!proof){alert("Please upload a file"); return}
 
-    const _identity = new Identity();
-    let data = {
-      proof: JSON.parse(proof),
-      identityCommitment: {
-          commit: _identity.commitment.toString()
-      },
-    }
-    let response = await fetch("api/tlsn", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-    })
+    // if(wallet){
+    //   try{
+    //   const provider = new anchor.AnchorProvider(connection, wallet, anchor.AnchorProvider.defaultOptions());
+    //   const program =  new anchor.Program<any>(IDL, programId, provider);
+    //   const [user, _bump] = findProgramAddressSync([], programId);
+    //   console.log("Funding Account is:", user.toString());
+    //   console.log("Program:", program);
 
-    if (response.status === 200) {
-      //await verifyIdentity();
-      setHasUploaded(true);
-      setCountry(values.country);
-      setRegion(values.region);
-    }else{
-      alert("Error in generating proof")
-    }
+    //   const tx = await program.methods
+    //     .createUser(/*new anchor.BN(1)*/)
+    //     .accounts({
+    //       user: user,
+    //       authority : wallet.publicKey
+    //     }).rpc();
+    //     console.log("Transaction:", tx)
+        setHasUploaded(true);
+        setCountry(values.country);
+        setRegion(values.region);
+    //   }catch(e){
+    //     alert("Contract Call Failed");
+    //     console.log(e)
+    //   }
+    // }
+
+    // const _identity = new Identity();
+    // let data = {
+    //   proof: JSON.parse(proof),
+    //   identityCommitment: {
+    //       commit: _identity.commitment.toString()
+    //   },
+    // }
+    // let response = await fetch("api/tlsn", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(data),
+    // })
     setIsBuilding(false);
   }
 

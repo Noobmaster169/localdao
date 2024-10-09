@@ -1,38 +1,16 @@
 "use client";
-
+import dynamic from 'next/dynamic'; 
 import Link from "next/link";
 import { links } from "@/constants/nav-links";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Button from "./Button";
-import { ConnectButton } from "thirdweb/react";
-import { inAppWallet, createWallet } from "thirdweb/wallets";
-import { client } from "@/constants";
-import { scrollSepolia } from "@/utils/chain";
-//import { scrollSepoliaTestnet } from "thirdweb/chains";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
-// const scrollSepoliaChain = {
-//   ...scrollSepolia,
-//   rpc: scrollSepolia.rpcUrls.default.http[0],
-//   blockExplorers: [
-//     {
-//       name: scrollSepolia.blockExplorers.default.name,
-//       url: scrollSepolia.blockExplorers.default.url,
-//       apiUrl: scrollSepolia.blockExplorers.default.apiUrl,
-//     },
-//   ],
-// }
-
-const wallets = [
-  inAppWallet({
-    smartAccount: {
-      chain: scrollSepolia,
-      //chain: scrollSepoliaTestnet,
-      sponsorGas: true,
-    },
-  }),
-  createWallet("io.metamask"),
-];
+const WalletMultiButtonDynamic = dynamic(
+  async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton,
+  { ssr: false }
+);
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -67,7 +45,7 @@ export default function NavBar() {
                   LOCALDAO
                 </h1>
                 <div className="opacity-0 pointer-events-none">
-                  <ConnectButton client={client} />
+                  <WalletMultiButtonDynamic style={{background:"#345a5f"}} />
                   {/*<w3m-button/>*/}
                 </div>
               </div>
@@ -79,32 +57,7 @@ export default function NavBar() {
                   LOCAL DAO
                 </h1>
                 <div>
-                  {/*<w3m-button/>*/}
-                  <ConnectButton
-                    client={client}
-                    wallets={wallets}
-                    appMetadata={{
-                      name: "LocalDAO",
-                      url: "https://luca3auth.com",
-                      logoUrl: "/Luca3.png",
-                    }}
-                    autoConnect={true}
-                    // chains={[myChain]}
-                    chains={[scrollSepolia]}
-                    connectButton={{
-                      label: "Connect Wallet",
-                    }}
-                    connectModal={{
-                      title: "Connect Wallet to LOCALDAO",
-                      showThirdwebBranding: false,
-                    }}
-                    showAllWallets={false}
-                    accountAbstraction={{
-                      // chain: myChain,
-                      chain: scrollSepolia,
-                      sponsorGas: true,
-                    }}
-                  />
+                  <WalletMultiButtonDynamic style={{background:"#345a5f"}} />
                 </div>
               </div>
             </div>

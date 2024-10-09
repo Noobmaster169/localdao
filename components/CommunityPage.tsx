@@ -5,36 +5,7 @@ import { useState, useEffect } from "react";
 import Button from "./Button";
 import { ICommunity } from "@/models/community.models";
 import CommunityCard from "./CommunityCard";
-import {
-  getContract,
-  createThirdwebClient,
-  readContract,
-  Chain,
-} from "thirdweb";
-import ABI from "@/contract/localDAO/abi.json";
-//import { scrollSepolia } from 'viem/chains';
-import { scrollSepolia } from "@/utils/chain";
 
-const client: any = createThirdwebClient({
-  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
-});
-// const scrollSepoliaChain = {
-//   ...scrollSepolia,
-//   rpc: scrollSepolia.rpcUrls.default.http[0],
-//   blockExplorers: [
-//     {
-//       name: scrollSepolia.blockExplorers.default.name,
-//       url: scrollSepolia.blockExplorers.default.url,
-//       apiUrl: scrollSepolia.blockExplorers.default.apiUrl,
-//     },
-//   ],
-// }
-const contract: any = getContract({
-  client,
-  chain: scrollSepolia,
-  address: "0x39683204f4822A75A3264a9e6583e9105fAD3fAc",
-  abi: ABI as any,
-});
 
 const mockData: ICommunity[] = [
   {
@@ -43,10 +14,10 @@ const mockData: ICommunity[] = [
     imageUrl:
       "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flogo-marque.com%2Fwp-content%2Fuploads%2F2020%2F09%2FPepsi-Embleme.jpg&f=1&nofb=1&ipt=7ac82c48ab54e33ecbdf21626183c7c8db05040616bd535df938081cfb9c17fc&ipo=images",
     description:
-      "Pepsi Challenge lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum etc long long long long long long long long long long long long long",
+      "Hello, Pepsi is here to conduct a new research on customer's favourite products. Which one of our product do you prefer?",
     country: "USA",
     region: "Manhattan",
-    options: ["Pepsi", "Coke", "Sprite", "Fanta"],
+    options: ["Pepsi", "Pepsi No Sugar", "Pepsi New Product"],
   },
   {
     _id: 3,
@@ -64,10 +35,10 @@ const mockData: ICommunity[] = [
     imageUrl:
       "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fimg3.wikia.nocookie.net%2F__cb20100630194920%2Flogopedia%2Fimages%2Fa%2Fae%2FNew_Mountian_Dew_logo.png&f=1&nofb=1&ipt=abb3595d4ddcd5c0630b858f45feee6cce787a94f523e9ef1e79ad7af334c6b2&ipo=images",
     description:
-      "Mountain Dew Adventure lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum etc",
+      "Which one is your favourite Mountain Dew Flavours",
     country: "Australia",
     region: "Sydney",
-    options: ["Mountain Dew", "Mello Yello", "Surge"],
+    options: ["Mountain Dew", "Red Code", "Raspberry"],
   },
 ];
 
@@ -79,38 +50,7 @@ const CommunityPage = () => {
     getData();
   }, []);
 
-  const getData = async () => {
-    const counter = await readContract({
-      contract: contract,
-      method: "function getCounter() public view returns (uint256)",
-      params: [],
-    });
-    const items: any = [];
-    for (let i = 1; i <= counter; i++) {
-      const item: any = await readContract<any, any, any>({
-        contract: contract,
-        method: "getVoting",
-        params: [BigInt(i)],
-      });
-      console.log(item);
-      const res = await fetch(item.uri);
-      const json = await res.json();
-      console.log(json);
-
-      const convertedItem: ICommunity = {
-        _id: i,
-        surveyTitle: json.name ? json.name : json.surveyTitle,
-        imageUrl: json.imageUrl,
-        description: json.description,
-        country: json.country,
-        region: json.region,
-        options: json.options,
-      };
-      items.push(convertedItem);
-    }
-    setData(items);
-    return counter;
-  };
+  const getData = async () => {};
 
   return (
     <div className="flex justify-center items-center w-screen h-fit flex-grow absolute top-0 left-0 z-10 pb-[160px]">

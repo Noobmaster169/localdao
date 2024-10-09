@@ -3,9 +3,7 @@ import { Orbitron } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import NavBar from "@/components/Navbar";
-// import ContextProvider from '@/context'
-// import { headers } from "next/headers"; // added
-import { ThirdwebProvider } from "thirdweb/react";
+import AppWalletProvider from "../components/AppWalletProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,17 +35,13 @@ export default function RootLayout({
   //const cookies = headers().get('cookie')
 
   return (
-    <ThirdwebProvider>
       <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased transparent-background`}
-        >
-          {/*<ContextProvider cookies={cookies}>*/}
+        <body className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased transparent-background`}>
+          <AppWalletProvider>
             <NavBar />
             <div className="pt-15">{children}</div>
-          {/*</ContextProvider>*/}
+          </AppWalletProvider>
         </body>
       </html>
-    </ThirdwebProvider>
   );
 }

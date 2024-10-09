@@ -38,34 +38,18 @@ import {
   fetchJSON,
   fetchLinkData,
 } from "@/utils/ipfs";
-import {
-  getContract,
-  createThirdwebClient,
-  readContract,
-  Chain,
-} from "thirdweb";
-import ABI from "@/contract/localDAO/abi.json";
-import { scrollSepolia } from "@/utils/chain";
-import {
-  prepareContractCall,
-  toWei,
-  sendAndConfirmTransaction,
-  sendTransaction,
-} from "thirdweb";
-import { Account, createWallet } from "thirdweb/wallets";
-
-const client: any = createThirdwebClient({
-  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
-});
-
-const contract: any = getContract({
-  client,
-  chain: scrollSepolia,
-  address: "0x39683204f4822A75A3264a9e6583e9105fAD3fAc",
-  abi: ABI as any,
-});
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { PublicKey } from "@solana/web3.js";
+import IDL from "@/anchor/idl.json";
+import * as anchor from '@project-serum/anchor';
+import { findProgramAddressSync } from '@project-serum/anchor/dist/cjs/utils/pubkey';
 
 const SurveyForm = () => {
+  const wallet = useAnchorWallet();
+  //const wallet = useWallet();
+  const { connection } = useConnection();
+  const programId = new PublicKey("GQq7ZdCqWXLjNnNjjWJmgFNxNdomW34enX48owiP2WHP")
+  
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState<string[]>([]);
@@ -73,7 +57,7 @@ const SurveyForm = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [isBuilding, setIsBuilding] = useState(false);
   const [newOption, setNewOption] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState<number>("");
   const [formData, setFormData] = useState({
     title: "",
     files: [] as File[],
@@ -126,38 +110,34 @@ const SurveyForm = () => {
     const IPFSLink = await linkBuilder(jsonUpload);
     console.log("Successfully uploaded and link built");
     console.log(IPFSLink);
-    await createVoting(IPFSLink);
+    await createVoting();
     setIsBuilding(false);
     router.push("/community");
   }
 
-  const createVoting = async (uri: string) => {
-    const wallet = createWallet("io.metamask");
-    const account = await wallet.connect({ client });
-    const transaction: any = await prepareContractCall<any, any>({
-      contract: contract,
-      method: "createVoting",
-      params: [
-        form.getValues("surveyTitle"),
-        uri,
-        form.getValues("options"),
-        toWei(amount),
-      ],
-      value: toWei(amount),
-    });
-    console.log(transaction);
+  const createVoting = async () => {
+    console.log("Creating Survey")
 
-    const transactionResult = await sendTransaction({
-      transaction,
-      account,
-    });
-    console.log(transactionResult);
-    // const transactionReceipt = await sendAndConfirmTransaction({
-    //   account,
-    //   transaction,
-    // });
-    // alert(transactionReceipt);
-    console.log("Done");
+    if(wallet){
+      try{
+      const provider = new anchor.AnchorProvider(connection, wallet, anchor.AnchorProvider.defaultOptions());
+      const program =  new anchor.Program<any>(IDL, programId, provider);
+      const [votingManager, _bump] = findProgramAddressSync([Buffer.from("localdao")], programId);
+      console.log("Funding Account is:", votingManager.toString());
+      console.log("Program:", program);
+
+      const tx = await program.methods
+        .initialize(new anchor.BN(amount * anchor.web3.LAMPORTS_PER_SOL), )
+        .accounts({
+          votingManager: votingManager,
+          authority : wallet.publicKey
+        }).rpc();
+      console.log("Transaction:", tx)
+      }catch(e){
+        alert("Contract Call Failed");
+        console.log(e)
+      }
+    }
   };
 
   return (
@@ -220,10 +200,10 @@ const SurveyForm = () => {
               <FormLabel className="pt-2 -mb-1 px-1">
                 Voting Incentive:
               </FormLabel>
-              {/* Eth amount */}
+              {/* SOL amount */}
               <Input
                 className="border-b-p1 border-t-0 border-l-0 border-r-0 bg-black bg-opacity-40 w-full text-white"
-                placeholder="ETH Amount"
+                placeholder="SOL Amount"
                 onChange={(e) => {
                   setAmount(e.target.value);
                 }}

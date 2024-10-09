@@ -10,32 +10,11 @@ import Button from "./Button";
 import { CgSpinner } from "react-icons/cg";
 import CommunityReview from "./CommunityReview";
 import CommunityCard from "./CommunityCard";
-import {
-  getContract,
-  createThirdwebClient,
-  readContract,
-  Chain,
-} from "thirdweb";
-import ABI from "@/contract/localDAO/abi.json";
-import { scrollSepolia } from "@/utils/chain";
-import {
-  prepareContractCall,
-  toWei,
-  sendAndConfirmTransaction,
-  sendTransaction,
-} from "thirdweb";
-import { Account, createWallet } from "thirdweb/wallets";
-
-const client: any = createThirdwebClient({
-  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
-});
-
-const contract: any = getContract({
-  client,
-  chain: scrollSepolia,
-  address: "0x39683204f4822A75A3264a9e6583e9105fAD3fAc",
-  abi: ABI as any,
-});
+import { useAnchorWallet, useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { PublicKey } from "@solana/web3.js";
+import IDL from "@/anchor/idl.json";
+import * as anchor from '@project-serum/anchor';
+import { findProgramAddressSync } from '@project-serum/anchor/dist/cjs/utils/pubkey';
 
 type CommunityFocusedViewProps = {
   isOpen: boolean;
@@ -48,6 +27,10 @@ const CommunityFocusedView = ({
   isOpen,
   setIsOpen,
 }: CommunityFocusedViewProps) => {
+  const wallet = useAnchorWallet();
+  const { connection } = useConnection();
+  const programId = new PublicKey("GQq7ZdCqWXLjNnNjjWJmgFNxNdomW34enX48owiP2WHP")
+  
   const customStyles = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.6)",
@@ -74,29 +57,29 @@ const CommunityFocusedView = ({
   // border-[#40A4FF] border-[3px] shadow-[0_0_20px_#40A4FF]
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [reviewIsOpen, setReviewIsOpen] = useState(false);
-  const [isOwner, setIsOwner] = useState(true);
+  const [isOwner, setIsOwner] = useState(community._id == 2);
 
   const vote = async () => {
-    const wallet = createWallet("io.metamask");
-    const account = await wallet.connect({ client });
-    console.log("Account:", account);
-    const transaction: any = await prepareContractCall<any, any>({
-      contract: contract,
-      method: "vote",
-      params: [BigInt(1), BigInt(1)],
-    });
-    console.log(transaction);
+    if(wallet){
+      try{
+      const provider = new anchor.AnchorProvider(connection, wallet, anchor.AnchorProvider.defaultOptions());
+      const program =  new anchor.Program<any>(IDL, programId, provider);
+      const [votingManager, _bump] = findProgramAddressSync([Buffer.from("localdao")], programId);
+      console.log("Funding Account is:", votingManager.toString());
+      console.log("Program:", program);
 
-    const transactionResult = await sendTransaction({
-      transaction,
-      account,
-    });
-    console.log(transactionResult);
-    // const transactionReceipt = await sendAndConfirmTransaction({
-    //   account,
-    //   transaction,
-    // });
-    // alert(transactionReceipt);
+      const tx = await program.methods
+        .vote(new anchor.BN(1))
+        .accounts({
+          votingManager: votingManager,
+          authority : wallet.publicKey
+        }).rpc();
+        console.log("Transaction:", tx)
+      }catch(e){
+        alert("Contract Call Failed");
+        console.log(e)
+      }
+    }
     console.log("Done");
   };
 
@@ -150,9 +133,9 @@ const CommunityFocusedView = ({
           </div>
           <div className="pb-16 w-fit h-fit flex gap-4">
             {!isOwner && <button
-              className={`font-semibold p-2 py-4 rounded-2xl flex items-center justify-center w-full text-lg text-white bg-[#40A4FF] 
+              className={`font-semibold px-6 py-3 rounded-2xl flex items-center justify-center w-full text-lg text-white bg-[#40A4FF] 
               shadow-[0_0_30px_#40A4FF] drop-shadow-xl ${!selectedOption ? "opacity-50 pointer-events-none" : "opacity-100"} hover:bg-opacity-100 flex gap-2`}
-              onClick={() => {setIsOpen(false)}}
+              onClick={async () => {await vote(); setIsOpen(false)}}
               >
                 {false ? "Sending" : "Send Transaction"}
                 {false && <div className="animate-spin">
@@ -160,8 +143,7 @@ const CommunityFocusedView = ({
                 </div>}
             </button>}
             {isOwner && <button
-              className={`font-semibold px-3 py-4 rounded-2xl flex items-center justify-center w-full text-lg text-white bg-green-400 
-              shadow-[0_0_20px_#4ade80] drop-shadow-xl hover:bg-opacity-100 gap-2`}
+              className={`font-semibold px-6 py-3 rounded-2xl flex items-center justify-center w-full text-lg text-white bg-green-400 hover:bg-opacity-100 gap-2`}
               onClick={() => {setReviewIsOpen(true)}}
               >
                 Open Result

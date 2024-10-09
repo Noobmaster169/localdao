@@ -14,7 +14,7 @@ const Hero = () => {
 
   return (
     <div className="flex justify-center items-center h-screen w-screen absolute top-0 left-0 z-10">
-      <div className="flex flex-col gap-5 justify-center items-center pb-[160px]">
+      <div className="flex flex-col gap-5 justify-center items-center pb-[100px]">
         <h1
           className="
           text-p4 font-geist-sans font-semibold text-hella-large tracking-wider
@@ -30,38 +30,6 @@ const Hero = () => {
         <div className="mt-8">
           {/* <Verify /> */}
           <Button text="Launch App" onClick={handleOnClick} />
-        </div>
-      </div>
-      <div className="absolute bottom-[10%] flex flex-col justify-center items-center gap-5">
-        <p className="font-geist-mono text-p4 font-semibold text-xl">
-          Powered By
-        </p>
-        <div className="flex justify-center items-center px-6 rounded-2xl gap-4">
-          <img
-            src="/scroll-lighttext.png"
-            alt="scroll"
-            width={100}
-            height={100}
-          />
-          <img
-            src="/worldcoin-lighttext.png"
-            alt="worldcoin"
-            width={150}
-            height={150}
-          />
-          <Image
-            src="/thegraph-lighttext.png"
-            alt="thegraph"
-            width={130}
-            height={130}
-          />
-          <Image
-            src="/tlsnotary-lighttext.png"
-            alt="tlsnotary"
-            width={130}
-            height={130}
-            className="ml-3"
-          />
         </div>
       </div>
     </div>

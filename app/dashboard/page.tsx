@@ -4,20 +4,14 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Verify from "@/components/Verify";
 import UploadJSONForm from "@/components/UploadJSONForm";
-import { createWallet } from "thirdweb/wallets";
-import { createThirdwebClient } from "thirdweb";
-import { useActiveAccount } from "thirdweb/react";
-
-const client: any = createThirdwebClient({
-  clientId: process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID as string,
-});
+import { useAnchorWallet, useConnection, useWallet } from '@solana/wallet-adapter-react'
 
 const page = () => {
   const [hasLoggedIn, setHasLoggedIn] = useState<boolean>(true);
   const [hasUploaded, setHasUploaded] = useState<boolean>(false);
   const [country, setCountry] = useState<string>("");
   const [region, setRegion] = useState<string>("");
-  const account = useActiveAccount();
+  const account = useWallet();
   console.log("Account from useActiveAccount():", account);
 
   return (
@@ -44,7 +38,7 @@ const page = () => {
                   <div className="flex flex-col gap-1">
                     <span className="text-p5 text-sm">User :</span>
                     <span className="text-p4 text-lg truncate">
-                      {account?.address}
+                      {account?.publicKey?.toString()}
                     </span>
                     <span className="text-p5 text-sm mt-2">Location :</span>
                     <span className="text-p4 text-lg">
@@ -52,15 +46,9 @@ const page = () => {
                     </span>
                     <span className="text-p5 text-sm mt-2">Activity :</span>
                     <span className="text-p4 text-lg">0 Surveys Completed</span>
-                    <span className="text-p5 text-sm mt-2">ETH Earned :</span>
+                    <span className="text-p5 text-sm mt-2">Points Earned :</span>
                     <div className="flex items-center gap-2">
-                      <Image
-                        src="/eth-logo.png"
-                        alt="ETH"
-                        width={24}
-                        height={24}
-                      />
-                      <span className="text-p4 text-lg">0.00 (USD$0.00)</span>
+                      <span className="text-p4 text-lg">0.00 Local Points</span>
                     </div>
                   </div>
                 </div>
